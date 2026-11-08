@@ -127,6 +127,18 @@ tr.cut td{border-top:2px dashed var(--amber)}
 .rank .who i{font-style:normal;color:var(--muted);font-size:18px;margin-left:10px}
 .rank .v{font-family:var(--display);font-weight:700;font-size:34px}
 
+/* weekly awards */
+.awards{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:24px;height:100%}
+.awards .stat{display:flex;flex-direction:column;justify-content:center;min-width:0}
+.awards .num{font-size:80px}
+.awards .who{font-size:26px;font-weight:600}
+.awards .why{font-size:18px;line-height:1.3;color:var(--muted);margin-top:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.awards .stat.none .num{color:var(--muted)}
+
+/* power ranking */
+.up{color:var(--win)} .down{color:var(--loss)} .same{color:var(--muted)}
+td.pw{font-family:var(--display);font-weight:700;font-size:30px;color:var(--amber)}
+
 /* ticker */
 /* big plays banner */
 #bp{display:flex;align-items:stretch;border-bottom:1px solid var(--line);background:#0c1426;overflow:hidden}
@@ -201,12 +213,12 @@ const LEAGUE = "1314273781128105984";
 const API = "https://api.sleeper.app/v1";
 const ESPN = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard";
 const PLAYERS = {"11533":["B. Aubrey","K","DAL"],"9487":["P. Washington","WR","JAX"],"6918":["S. Ahmed","RB","CHI"],"6786":["C. Lamb","WR","DAL"],"11584":["B. Irving","RB","TB"],"11649":["K. Milton","RB","CIN"],"6783":["J. Jeudy","WR","CLE"],"13600":["T. Montgomery","WR","TEN"],"11616":["J. Cowing","WR","SF"],"9504":["K. Boutte","WR","HOU"],"12507":["O. Hampton","RB","LAC"],"11439":["J. McLaughlin","RB","CLE"],"13302":["A. Randall","RB","BAL"],"11629":["D. Walker","WR","BAL"],"13295":["B. Morton","QB","NE"],"12493":["O. Gadsden","TE","LAC"],"12699":["L. Wester","WR","BAL"],"7553":["K. Pitts Sr.","TE","ATL"],"11304":["E. Jenkins","TE","ATL"],"19":["J. Flacco","QB","CIN"],"4054":["M. Alie-Cox","TE","IND"],"12848":["J. Kelly","WR","HOU"],"8698":["J. Tonges","TE","SF"],"12971":["K. Williams","WR","CIN"],"6016":["D. Raymond","TE","PIT"],"11157":["B. Tremayne","WR","CAR"],"8116":["P. Strong Jr.","RB","GB"],"7585":["D. Mills","QB","HOU"],"2359":["A. Abdullah","RB","JAX"],"5854":["D. Lock","QB","SEA"],"7593":["T. Sermon","RB","ATL"],"11579":["A. Estime","RB","NO"],"HOU":["Texans","DEF","HOU"],"3294":["D. Prescott","QB","DAL"],"13301":["A. Williams","WR","WAS"],"421":["M. Stafford","QB","LAR"],"11636":["J. Wilson","WR","PHI"],"8134":["K. Shakir","WR","BUF"],"7828":["N. Gray","TE","KC"],"NE":["Patriots","DEF","NE"],"11557":["J. Milton","QB","PHI"],"5995":["J. Hill","RB","BAL"],"12925":["J. Pritchett","WR","NYJ"],"12517":["C. Loveland","TE","CHI"],"8138":["J. Cook III","RB","BUF"],"7262":["J. Morton","QB","IND"],"8119":["J. Dotson","WR","ATL"],"8194":["J. Corbin","RB","DAL"],"13418":["R. Henry Jr.","RB","WAS"],"12542":["E. Chism III","WR","NE"],"7049":["J. Jennings","WR","MIN"],"8136":["R. White","RB","WAS"],"11610":["M. Washington","WR","MIA"],"4943":["S. Darnold","QB","SEA"],"10228":["C. Jones","WR","NYG"],"829":["A. Dalton","QB","ATL"],"10222":["J. Reed","WR","GB"],"11370":["C. Brooks","RB","GB"],"11574":["D. Laube","RB","LV"],"6323":["A. Beck","RB","NYJ"],"6927":["Q. Watkins","WR","IND"],"8111":["C. Otton","TE","TB"],"3269":["C. Moore","WR","BAL"],"12374":["B. Bates","TE","JAX"],"13554":["C. Williams","WR","JAX"],"13270":["C. Daniels","WR","LAR"],"11647":["K. Vidal","RB","LAC"],"6045":["G. Jennings","WR","LAC"],"13273":["J. Cuevas","TE","BAL"],"13282":["J. Endries","TE","CIN"],"7608":["K. Herbert","RB","ATL"],"4227":["H. Butker","K","KC"],"8484":["K. Kieft","TE","TB"],"9488":["J. Smith-Njigba","WR","SEA"],"9510":["L. Nichols","RB","PIT"],"11571":["I. Davis","RB","NYJ"],"7526":["J. Waddle","WR","DEN"],"13079":["J. Walker","WR","CHI"],"13047":["J. Wright","RB","SEA"],"13318":["N. Thomas","WR","CIN"],"BAL":["Ravens","DEF","BAL"],"13380":["B. Thompson","WR","LAC"],"2944":["M. LaCosse","TE","NE"],"13400":["J. Joly","TE","MIA"],"11931":["A. Reed","QB","BAL"],"2197":["B. Cooks","WR","SF"],"5870":["D. Jones","QB","IND"],"13421":["E. Raridon","TE","NE"],"5844":["T. Hockenson","TE","MIN"],"12961":["R. Fitzgerald","K","CAR"],"10955":["C. Ryland","K","ARI"],"12529":["T. Henderson","RB","NE"],"7933":["A. Kessman","K","CAR"],"13431":["M. Kitselman","TE","DET"],"13310":["M. Moss","QB","CHI"],"5957":["I. Nauta","TE","GB"],"13268":["E. Sarratt","WR","BAL"],"12535":["I. TeSlaa","WR","DET"],"6790":["D. Swift","RB","CHI"],"1373":["G. Smith","QB","NYJ"],"12491":["C. Kiner","RB","NE"],"6768":["T. Tagovailoa","QB","ATL"],"6130":["D. Singletary","RB","NYG"],"5004":["I. Smith","RB","DAL"],"12356":["J. Small","RB","DET"],"6904":["J. Hurts","QB","PHI"],"13905":["O. Evans","WR","KC"],"7538":["Z. Wilson","QB","NO"],"7561":["E. Mitchell","RB","PHI"],"11635":["L. McConkey","WR","LAC"],"13347":["D. Claiborne","RB","MIN"],"12475":["R. White III","WR","SEA"],"8154":["B. Robinson Jr.","RB","ATL"],"11806":["C. Washington","WR","CAR"],"6111":["J. Browning","QB","LAC"],"11273":["B. VanSumeren","RB","KC"],"7583":["S. Ehlinger","QB","DEN"],"13438":["D. Trayanum","RB","NYJ"],"4744":["B. Burns","TE","BAL"],"11620":["R. Odunze","WR","CHI"],"10232":["M. Wilson","WR","ARI"],"PIT":["Steelers","DEF","PIT"],"6804":["J. Love","QB","GB"],"5121":["B. Berrios","WR","NYG"],"7093":["A. Killins","RB","DEN"],"6083":["M. Gay","K","LV"],"IND":["Colts","DEF","IND"],"8147":["J. Metchie III","WR","CAR"],"13342":["J. Gyllenborg","TE","KC"],"11592":["E. All Jr.","TE","CIN"],"7496":["N. Westbrook-Ikhine","WR","IND"],"3634":["K. Raymond","WR","CHI"],"5773":["K. Hodge","WR","SF"],"11520":["L. Jackson","WR","DET"],"13833":["D. Zvada","K","NYG"],"9998":["H. Hooker","QB","TEN"],"8500":["J. FitzPatrick","TE","CLE"],"4037":["C. Godwin Jr.","WR","TB"],"13516":["M. Bredeson","RB","MIN"],"5906":["D. Knox","TE","BUF"],"7812":["S. Fehoko","WR","ARI"],"12908":["C. Brayboy","WR","NE"],"7066":["K. Osborn","WR","TEN"],"1979":["B. Bortles","QB","NO"],"260":["J. Johnson","QB","CIN"],"13557":["A. Kaliakmanis","QB","WAS"],"8259":["C. Dicker","K","LAC"],"10220":["W. Mallory","TE","IND"],"13249":["T. Gordon","TE","DET"],"8205":["I. Pacheco","RB","DET"],"1166":["K. Cousins","QB","LV"],"8110":["J. Ferguson","TE","DAL"],"7842":["L. Farrell","TE","SF"],"7048":["B. LeMay","RB","CLE"],"3239":["B. Kaufusi","TE","GB"],"1339":["Z. Ertz","TE","PHI"],"11280":["B. Russell","RB","SEA"],"11589":["T. Benson","RB","ARI"],"13173":["J. Holiday","WR","KC"],"10867":["J. Bobo","WR","SEA"],"8131":["I. Likely","TE","NYG"],"4046":["P. Mahomes","QB","KC"],"ARI":["Cardinals","DEF","ARI"],"3286":["D. Robinson","WR","SF"],"11608":["I. Williams","WR","NYJ"],"12524":["S. Sanders","QB","CLE"],"SEA":["Seahawks","DEF","SEA"],"7564":["J. Chase","WR","CIN"],"8177":["G. Calcaterra","TE","PHI"],"8125":["C. Austin III","WR","NYG"],"7746":["A. Trammell","WR","JAX"],"7587":["D. Brown","WR","WAS"],"13422":["J. Kanak","TE","TEN"],"LV":["Raiders","DEF","LV"],"7839":["E. McPherson","K","CIN"],"8117":["J. Tolbert","WR","MIA"],"6797":["J. Herbert","QB","LAC"],"6801":["T. Higgins","WR","CIN"],"10859":["S. LaPorta","TE","DET"],"12792":["G. Greene","QB","TB"],"812":["L. Smith","TE","ATL"],"13964":["M. Montgomery","RB","NE"],"6386":["A. Bachman","WR","LAR"],"4443":["P. Brown","TE","IND"],"11237":["J. Saylors","RB","DET"],"8414":["B. Covey","WR","PHI"],"8523":["N. Muse","TE","ATL"],"9501":["D. Douglas","WR","NE"],"8180":["J. Nailor","WR","LV"],"1737":["C. Keenum","QB","CHI"],"12519":["L. Burden III","WR","CHI"],"9486":["D. Wicks","WR","PHI"],"NYJ":["Jets","DEF","NYJ"],"13199":["M. Foster Jr.","WR","SEA"],"12455":["B. Smith","RB","KC"],"4881":["L. Jackson","QB","BAL"],"10937":["J. Moody","K","BAL"],"13428":["J. Aguilar","QB","JAX"],"13349":["E. Stowers","TE","PHI"],"11618":["J. McMillan","WR","TB"],"4219":["J. McNichols","RB","WAS"],"10983":["S. Clifford","QB","CIN"],"2133":["D. Adams","WR","LAR"],"96":["A. Rodgers","QB","PIT"],"5872":["D. Samuel Sr.","WR","SF"],"9480":["B. Strange","TE","JAX"],"12545":["T. Shough","QB","NO"],"827":["T. Taylor","QB","GB"],"6650":["C. McLaughlin","K","TB"],"4892":["B. Mayfield","QB","TB"],"4137":["J. Conner","RB","ARI"],"13432":["K. Dinkins","TE","SF"],"8145":["J. Ruckert","TE","NYJ"],"12518":["T. Warren","TE","IND"],"11261":["A. Szmyt","K","CLE"],"13264":["D. Meyers","WR","CIN"],"13330":["K. Sadiq","TE","NYJ"],"9506":["S. Tucker","RB","TB"],"7607":["M. Carter","RB","TEN"],"8167":["C. Watson","WR","GB"],"7599":["J. Jefferson","RB","ARI"],"12897":["N. Carter","RB","KC"],"5223":["C. Scott","WR","TEN"],"9999":["W. Levis","QB","NYJ"],"12509":["T. Harris","WR","LAC"],"5947":["J. Meyers","WR","JAX"],"12946":["D. Fleming","WR","NYG"],"14026":["D. Herman","RB","MIA"],"11651":["I. Guerendo","RB","SF"],"14020":["D. Patterson IV","WR","TB"],"13272":["C. Beck","QB","ARI"],"12700":["G. Bartholomew","TE","MIN"],"3271":["T. Higbee","TE","LAR"],"12761":["J. Moore","WR","CIN"],"11638":["R. Pearsall","WR","SF"],"12514":["E. Egbuka","WR","TB"],"7605":["K. Trask","QB","DAL"],"13292":["L. McRee","TE","PIT"],"7569":["N. Collins","WR","HOU"],"13582":["A. Smith","WR","DAL"],"6659":["C. Reynolds","RB","WAS"],"9228":["B. Young","QB","CAR"],"12487":["T. Ferguson","TE","LAR"],"DAL":["Cowboys","DEF","DAL"],"5973":["J. Oliver","TE","MIN"],"8408":["J. Mason","RB","MIN"],"12884":["Q. Skinner Jr.","WR","GB"],"13603":["G. Desrosiers","RB","NYG"],"11650":["L. McCaffrey","WR","WAS"],"4195":["J. Elliott","K","PHI"],"13296":["C. Douglas","WR","MIA"],"7021":["R. Dowdle","RB","PIT"],"11895":["M. Tipton","WR","NO"],"11630":["R. Wilson","WR","PIT"],"7083":["T. Huntley","QB","BAL"],"12735":["C. Lohner","TE","DEN"],"8137":["G. Pickens","WR","DAL"],"8135":["T. Burks","WR","WAS"],"7694":["T. Tremble","TE","CAR"],"9484":["T. Kraft","TE","GB"],"11597":["T. Johnson","TE","NYG"],"11576":["B. Allen","RB","NYJ"],"13325":["J. Hudson","WR","DAL"],"7596":["E. Moore","WR","PHI"],"8146":["G. Wilson","WR","NYJ"],"4663":["A. Ekeler","RB","WAS"],"9511":["K. Mitchell","RB","LAC"],"13311":["C. Bell","WR","MIA"],"7521":["C. Blair","WR","ATL"],"12543":["T. Brooks","RB","CIN"],"13299":["N. Boerkircher","TE","JAX"],"4233":["Z. Gonzalez","K","MIA"],"8208":["T. Badie","RB","DEN"],"1604":["N. Williams","WR","DEN"],"WAS":["Commanders","DEF","WAS"],"11586":["B. Corum","RB","LAR"],"8225":["D. Bellinger","TE","TEN"],"5938":["L. Humphrey","WR","DEN"],"12504":["K. Johnson","RB","GB"],"12079":["T. Welch","TE","NO"],"12474":["W. Marks","RB","HOU"],"11644":["C. Schrader","RB","DEN"],"6465":["T. Ives","WR","CHI"],"8206":["S. Thompson","QB","BAL"],"12171":["B. Brooks","RB","HOU"],"8013":["T. Jones","WR","JAX"],"13074":["I. Neyor","WR","GB"],"13415":["H. King","QB","CAR"],"6185":["E. Stick","QB","TB"],"LAC":["Chargers","DEF","LAC"],"2216":["M. Evans","WR","SF"],"7562":["T. Atwell","WR","LAR"],"7149":["T. Stevens","TE","NYG"],"8132":["T. Allgeier","RB","ARI"],"12523":["J. Horn Jr.","WR","CLE"],"13401":["M. Trigg","TE","DAL"],"8254":["J. Chestnut","RB","TEN"],"8107":["N. Kalinic","TE","CHI"],"12489":["R. Harvey","RB","DEN"],"8223":["V. Jones Jr.","WR","SEA"],"7535":["H. Long","TE","ARI"],"12482":["S. Williams","WR","GB"],"8088":["K. Jackson","TE","MIA"],"11384":["O. Wright","RB","LV"],"13423":["E. Heidenreich","RB","PIT"],"11959":["B. Oliver","WR","HOU"],"13424":["S. McGowan","RB","IND"],"8253":["D. Thompkins","WR","LV"],"8861":["I. Charles","WR","SEA"],"4351":["T. Patrick","WR","NYJ"],"13335":["C. Payton","QB","PHI"],"9220":["E. Hull","RB","ARI"],"11596":["B. Sinnott","TE","WAS"],"1706":["J. Doyle","TE","IND"],"3198":["D. Henry","RB","BAL"],"4926":["N. Schuessler","QB","PIT"],"12522":["C. Ward","QB","TEN"],"8143":["J. Ford","RB","ARI"],"12496":["T. Felton","WR","MIN"],"12656":["R. Ouzts","RB","SEA"],"6847":["D. Duvernay","WR","ARI"],"2750":["D. Carter","WR","DET"],"9493":["P. Nacua","WR","LAR"],"13321":["D. Villari","TE","LAR"],"13968":["D. Stevens","K","WAS"],"10226":["A. Iosivas","WR","CIN"],"13116":["T. Watson","TE","MIA"],"12765":["K. Latu","TE","BUF"],"11617":["M. Corley","WR","CLE"],"TB":["Buccaneers","DEF","TB"],"4981":["C. Ridley","WR","TEN"],"7946":["J. Stoll","TE","SF"],"13417":["D. Stribling","WR","SF"],"10224":["B. Willis","TE","SF"],"8160":["K. Pickett","QB","CAR"],"9479":["D. Washington","TE","PIT"],"11577":["W. Shipley","RB","PHI"],"12540":["C. Dike","WR","TEN"],"CLE":["Browns","DEF","CLE"],"13307":["M. Klein","TE","HOU"],"5859":["A. Brown","WR","NE"],"4034":["C. McCaffrey","RB","SF"],"6699":["G. Olszewski","WR","NYG"],"4263":["E. McGuire","RB","KC"],"7591":["J. Fields","QB","KC"],"4866":["S. Barkley","RB","PHI"],"8170":["J. Mitchell","TE","DAL"],"5119":["J. Sanders","K","NYJ"],"5967":["T. Pollard","RB","TEN"],"8076":["M. Bandy","WR","DEN"],"12756":["S. Gosnell","WR","BUF"],"12048":["G. Holani","RB","SEA"],"12888":["D. Cambre","WR","NYG"],"13353":["C. Brazzell II","WR","CAR"],"12641":["J. Lane","WR","WAS"],"10213":["T. Tucker","WR","LV"],"13696":["J. Maclin","WR","BUF"],"8130":["T. McBride","TE","ARI"],"13286":["J. Price","RB","SEA"],"7536":["Q. Morris","TE","JAX"],"13339":["D. Booth","RB","IND"],"8142":["A. Pierce","WR","IND"],"11648":["K. Slovis","QB","BAL"],"3214":["H. Henry","TE","NE"],"3976":["M. Trubisky","QB","TEN"],"13416":["R. Hemby","RB","LV"],"13356":["T. Pena","WR","JAX"],"7523":["T. Lawrence","QB","JAX"],"12508":["J. Dart","QB","NYG"],"4066":["E. Engram","TE","DEN"],"13670":["H. Wallace III","WR","ARI"],"12533":["J. Croskey-Merritt","RB","WAS"],"3048":["C. Manhertz","TE","NYG"],"14080":["B. Kpeenu","RB","TB"],"12787":["J. Williams","RB","TB"],"8227":["T. Quitoriano","TE","ARI"],"11565":["J. McCarthy","QB","NYG"],"8220":["S. McCormick","RB","SF"],"8676":["R. Shaheed","WR","SEA"],"13285":["M. Fields","WR","NYG"],"6271":["O. Zaccheaus","WR","ATL"],"13392":["J. Caldwell","WR","KC"],"6866":["K. Hill","WR","LAC"],"11792":["W. Reichard","K","MIN"],"6920":["I. Hodgins","WR","PIT"],"12527":["A. Jeanty","RB","LV"],"10225":["J. Mingo","WR","DAL"],"12470":["R. Leonard","QB","IND"],"12473":["M. Evans","TE","CAR"],"ATL":["Falcons","DEF","ATL"],"10219":["C. Rodriguez Jr.","RB","JAX"],"13277":["C. Donaldson","RB","NO"],"5917":["M. Hardman Jr.","WR","IND"],"4983":["D. Moore","WR","BUF"],"12460":["A. Wells Jr.","WR","ATL"],"5022":["D. Goedert","TE","PHI"],"CAR":["Panthers","DEF","CAR"],"13042":["X. Guillory","WR","CLE"],"13414":["K. Black","RB","SF"],"11082":["B. Sims","TE","SEA"],"8755":["K. Davis","WR","CHI"],"12495":["O. Gordon II","RB","MIA"],"4602":["R. Tonyan","TE","PIT"],"4189":["E. Saubert","TE","SEA"],"12863":["A. Armstrong","WR","KC"],"5133":["T. Conklin","TE","DET"],"8917":["K. Turpin","WR","DAL"],"11655":["T. Tracy Jr.","RB","NYG"],"12775":["M. Brosmer","QB","MIN"],"12901":["P. Herbert","TE","LAC"],"6957":["J. Proche II","WR","ARI"],"10229":["R. Rice","WR","KC"],"JAX":["Jaguars","DEF","JAX"],"9226":["D. Achane","RB","MIA"],"9494":["M. Mims Jr.","WR","DEN"],"11559":["M. Penix Jr.","QB","ATL"],"13279":["C. Tate","WR","TEN"],"4993":["M. Gesicki","TE","CIN"],"LAR":["Rams","DEF","LAR"],"12928":["A. Johnson","RB","LAC"],"12113":["T. Yassmin","TE","GB"],"11627":["T. Franklin","WR","DEN"],"13403":["J. Miller","RB","ATL"],"1592":["D. Fells","TE","TB"],"3868":["J. Richard","RB","LV"],"13151":["N. Kallerup","TE","SEA"],"13287":["J. Love","RB","ARI"],"6869":["A. Trautman","TE","DEN"],"13830":["K. Dixon","WR","NE"],"13923":["J. Pitsenberger","RB","HOU"],"9509":["B. Robinson","RB","ATL"],"7525":["D. Smith","WR","PHI"],"11292":["T. DeVito","QB","NE"],"12476":["D. Neal","RB","WAS"],"12511":["W. Howard","QB","PIT"],"8002":["S. Buechele","QB","BUF"],"8207":["T. Goodson","RB","DAL"],"12490":["B. Tuten","RB","JAX"],"1945":["C. Boswell","K","PIT"],"12457":["J. Blue","RB","PHI"],"12548":["L. Krieg","K","GB"],"7039":["C. White","WR","LV"],"8112":["D. London","WR","ATL"],"11632":["M. Nabers","WR","NYG"],"4177":["M. Hollins","WR","NE"],"13825":["M. McClain","WR","NYJ"],"5848":["M. Brown","WR","PHI"],"11371":["J. Hill","TE","NE"],"8250":["T. Martin","WR","DET"],"13662":["W. Pauling","WR","SF"],"12715":["T. Fidone II","TE","NYG"],"10857":["S. Bennett IV","QB","LAR"],"9229":["A. Richardson Sr.","QB","IND"],"6770":["J. Burrow","QB","CIN"],"11624":["X. Worthy","WR","KC"],"11994":["K. Johnson","WR","TB"],"10227":["P. Durham","TE","TB"],"10214":["D. Allen","TE","LAR"],"4179":["J. Dobbs","QB","DET"],"10866":["A. O'Connell","QB","LV"],"12499":["E. Ayomanor","WR","TEN"],"13013":["M. Redman","TE","GB"],"11201":["B. Whiteheart","TE","CLE"],"11299":["Z. Scott","RB","CHI"],"9221":["J. Gibbs","RB","DET"],"13779":["A. Henderson","RB","NYJ"],"3163":["J. Goff","QB","DET"],"4039":["C. Kupp","WR","SEA"],"7610":["T. Lance","QB","LAC"],"12483":["J. Bech","WR","LV"],"NO":["Saints","DEF","NO"],"13313":["E. Henderson Jr.","WR","SEA"],"7568":["B. Jordan","TE","HOU"],"5985":["F. Moreau","TE","HOU"],"GB":["Packers","DEF","GB"],"13429":["S. Traore","TE","MIA"],"13904":["J. De Jesus","WR","KC"],"10234":["D. Davis","WR","LAC"],"7531":["F. Franks","TE","CAR"],"11786":["C. Little","K","JAX"],"8148":["J. Williams","WR","DET"],"10444":["C. Tillman","WR","NO"],"7090":["D. Mooney","WR","NYG"],"4217":["G. Kittle","TE","SF"],"12480":["M. Matavao","TE","NO"],"11628":["M. Harrison Jr.","WR","HOU"],"10210":["C. Latu","TE","NE"],"2306":["J. Winston","QB","NYG"],"4924":["Z. Terrell","QB","BAL"],"13032":["M. Lang","TE","MIN"],"1479":["K. Allen","WR","IND"],"3258":["N. Vannett","TE","BAL"],"1264":["J. Tucker","K","KC"],"12477":["K. Rourke","QB","SF"],"7204":["R. Gilliam","RB","NE"],"13394":["J. Cameron","WR","JAX"],"6167":["J. Scarlett","RB","MIA"],"11595":["J. Wiley","TE","KC"],"12531":["T. Etienne","RB","CAR"],"13705":["T. Pezza","TE","BAL"],"13545":["T. Smack","K","GB"],"12539":["A. Smith","WR","NYJ"],"6147":["C. Thorson","QB","NYG"],"13275":["T. Simpson","QB","LAR"],"12969":["L. Larison","RB","NE"],"8423":["B. Brown","RB","CHI"],"11653":["C. Smyth","K","NO"],"8183":["B. Purdy","QB","SF"],"13320":["Z. Branch","WR","ATL"],"12541":["D. Thornton Jr.","WR","LV"],"12732":["D. Lovett","WR","DET"],"7891":["B. Wright","TE","DET"],"13269":["F. Mendoza","QB","LV"],"13420":["B. Lance","WR","NO"],"11593":["B. Spann-Ford","TE","DAL"],"12512":["Q. Judkins","RB","CLE"],"12634":["J. Watkins","WR","SF"],"11257":["S. Jackson","WR","ARI"],"7103":["T. Feaster","RB","ARI"],"4930":["F. House","TE","CHI"],"13405":["K. Allen","RB","MIA"],"8181":["C. Heyward","RB","LV"],"8151":["K. Walker III","RB","KC"],"10236":["D. Kincaid","TE","BUF"],"2078":["O. Beckham Jr.","WR","MIN"],"12062":["C. Grandy","TE","CIN"],"7547":["A. St. Brown","WR","DET"],"11474":["D. Drummond","WR","ATL"],"13413":["C. Allen","WR","KC"],"12829":["C. Owen","WR","GB"],"12773":["D. Uiagalelei","QB","LAC"],"12718":["K. Mumpfield","WR","LAR"],"9481":["L. Musgrave","TE","GB"],"13419":["J. Ott","RB","KC"],"12939":["A. Tyus III","RB","CAR"],"8129":["D. Pierce","RB","PHI"],"13281":["J. Tyson","WR","NO"],"11581":["M. Lloyd","RB","GB"],"13303":["C. Klubnik","QB","NYJ"],"4080":["Z. Jones","WR","ARI"],"4147":["S. Perine","RB","CIN"],"12538":["B. Cook","QB","MIA"],"13010":["J. Waters","RB","LAR"],"7720":["K. Nwangwu","RB","NYJ"],"13726":["C. Brown","WR","DAL"],"12536":["J. Noel","WR","HOU"],"10223":["E. Gray","RB","NYG"],"7597":["K. Yeboah","TE","ARI"],"12492":["P. Bryant","WR","DEN"],"6826":["C. Kmet","TE","CHI"],"12526":["T. McMillan","WR","CAR"],"11058":["B. Grupe","K","LAR"],"13276":["O. Cooper Jr.","WR","NYJ"],"11210":["M. Heath","WR","ATL"],"13963":["N. DeGennaro","WR","WAS"],"13121":["B. Yurosek","TE","MIN"],"3678":["W. Lutz","K","DEN"],"1984":["A. Hurns","WR","MIA"],"13760":["J. Bradley","WR","WAS"],"11802":["T. Palmer","WR","LAC"],"11563":["B. Nix","QB","DEN"],"2449":["S. Diggs","WR","WAS"],"7567":["K. Gainwell","RB","TB"],"6540":["D. Thompkins","WR","GB"],"7543":["T. Etienne Jr.","RB","NO"],"12217":["S. Bowman","TE","ARI"],"13804":["K. Matsuzawa","K","LV"],"6001":["D. Sample","TE","CIN"],"7757":["B. Skowronek","WR","PIT"],"8583":["S. Smartt","TE","NO"],"13343":["V. Anthony II","WR","ATL"],"12984":["C. Dippre","TE","TB"],"9508":["T. Spears","RB","TEN"],"11570":["R. Ali","RB","BAL"],"12534":["K. Monangai","RB","CHI"],"8195":["R. Rivers","RB","LAR"],"13890":["M. Briscoe","WR","MIN"],"1642":["L. Toilolo","TE","NYG"],"13597":["M. Caldwell","QB","LAR"],"8849":["T. Conner","TE","NE"],"13533":["B. Brown","WR","NO"],"5189":["E. Pineiro","K","SF"],"13337":["E. Johnson","RB","KC"],"13101":["G. Larvadain","WR","BAL"],"11631":["B. Thomas Jr.","WR","JAX"],"5892":["D. Montgomery","RB","HOU"],"2118":["E. Ebron","TE","PIT"],"6290":["S. Miller","WR","CHI"],"13150":["D. Cooper","WR","PHI"],"11186":["C. Washington Jr.","RB","MIA"],"11583":["J. Brooks","RB","CAR"],"5127":["K. Allen","QB","BUF"],"12497":["T. Horton","WR","SEA"],"12469":["D. Sampson","RB","CLE"],"13336":["D. Key","WR","DEN"],"12933":["C. Prieskorn","TE","CIN"],"4274":["D. Moore","WR","CAR"],"13179":["J. Reed","WR","CAR"],"13425":["J. Daniels","QB","TB"],"8219":["J. Woods","TE","NYJ"],"MIA":["Dolphins","DEF","MIA"],"13297":["R. Virgil","WR","ARI"],"7075":["C. Woerner","TE","ATL"],"12502":["G. Helm","TE","TEN"],"7571":["R. Bateman","WR","BAL"],"13577":["D. Bentley","TE","DEN"],"8924":["T. Odukoya","TE","KC"],"11306":["X. Gipson","WR","PHI"],"5927":["T. McLaurin","WR","WAS"],"4199":["A. Jones Sr.","RB","MIN"],"4950":["C. Kirk","WR","SF"],"12472":["R. Sanders","RB","CLE"],"12865":["A. Henning","WR","MIA"],"11646":["J. Coker","WR","CAR"],"13316":["E. Rivers Jr.","WR","TB"],"4454":["K. Bourne","WR","ARI"],"12498":["M. Taylor","TE","NYJ"],"12481":["C. Skattebo","RB","NYG"],"10218":["X. Hutchinson","WR","HOU"],"6154":["D. Sills V","WR","TB"],"6931":["D. Dallas","RB","MIN"],"11623":["J. Whittington","WR","LAR"],"4995":["I. Thomas","TE","LV"],"9225":["T. Bigsby","RB","PHI"],"DET":["Lions","DEF","DET"],"13411":["Z. Thomas","WR","CHI"],"11603":["A. Barner","TE","SEA"],"13407":["C. Towt","TE","IND"],"13348":["J. Taylor","RB","JAX"],"BUF":["Bills","DEF","BUF"],"9757":["K. Miller","RB","NO"],"7670":["J. Palmer","WR","BUF"],"7611":["R. Stevenson","RB","NE"],"12547":["K. Williams","WR","NE"],"3333":["T. Hemingway","TE","WAS"],"8150":["K. Williams","RB","LAR"],"PHI":["Eagles","DEF","PHI"],"8121":["R. Doubs","WR","NE"],"8123":["H. Haskins","RB","CLE"],"3161":["C. Wentz","QB","MIN"],"12705":["G. Mertz","QB","HOU"],"7600":["P. Freiermuth","TE","PIT"],"8527":["D. Young","WR","LV"],"11199":["E. Demercado","RB","HOU"],"12860":["T. Wease Jr.","WR","LAC"],"12688":["C. Miller","QB","GB"],"4922":["G. Scantling","WR","ATL"],"12486":["D. Gabriel","QB","CLE"],"10212":["J. Whyle","TE","GB"],"11381":["T. Vokolek","TE","ARI"],"8161":["M. Willis","QB","MIA"],"11729":["S. Vaki","RB","DET"],"8228":["J. Warren","RB","PIT"],"11562":["S. Rattler","QB","NO"],"8230":["T. Chandler","RB","NO"],"6011":["G. Minshew II","QB","ARI"],"SF":["49ers","DEF","SF"],"6136":["J. Stidham","QB","DEN"],"12494":["K. McCord","QB","MIA"],"11626":["X. Legette","WR","CAR"],"11637":["K. Coleman","WR","BUF"],"11573":["F. Gore Jr.","RB","BUF"],"13408":["T. Koziol","TE","JAX"],"12817":["J. Briningstool","TE","KC"],"5857":["N. Fant","TE","NO"],"12500":["Q. Ewers","QB","JAX"],"5154":["T. Sherfield","WR","BUF"],"9224":["C. Brown","RB","CIN"],"12520":["X. Restrepo","WR","TEN"],"8204":["B. Melton","WR","GB"],"13477":["C. Young","WR","CIN"],"12521":["E. Arroyo","TE","SEA"],"5012":["M. Andrews","TE","BAL"],"12484":["J. Higgins","WR","HOU"],"7595":["T. Wallace","WR","CLE"],"13645":["M. Wortham","WR","JAX"],"13404":["G. Nussmeier","QB","KC"],"11942":["C. Yankoff","TE","WAS"],"13436":["K. Bullock","RB","CIN"],"3202":["A. Hooper","TE","ATL"],"6794":["J. Jefferson","WR","MIN"],"11377":["T. Shavers","WR","BUF"],"11600":["J. Sanders","TE","CAR"],"12713":["A. Borregales","K","NE"],"9230":["T. McKee","QB","PHI"],"5008":["D. Smythe","TE","BAL"],"9754":["Q. Johnston","WR","LAC"],"NYG":["Giants","DEF","NYG"],"13288":["N. Singleton","RB","TEN"],"6453":["D. Montgomery","WR","IND"],"12503":["I. Bond","WR","CLE"],"TEN":["Titans","DEF","TEN"],"13433":["R. Nowakowski","RB","PIT"],"13210":["D. Dabney","TE","GB"],"7618":["M. Simon","WR","CAR"],"11625":["A. Mitchell","WR","NYJ"],"12389":["H. Rucci","TE","LAC"],"13274":["G. Bernard","WR","PIT"],"7537":["J. Patterson","RB","DEN"],"12471":["D. Giddens","RB","IND"],"12467":["J. James","RB","SF"],"8114":["E. Ezukanma","WR","PHI"],"8144":["C. Olave","WR","NO"],"13305":["M. Washington Jr.","RB","LV"],"4984":["J. Allen","QB","BUF"],"12938":["J. Meeks","TE","DET"],"4937":["A. Riles","WR","IND"],"650":["N. Folk","K","ATL"],"9500":["J. Downs","WR","IND"],"11762":["A. Gould","WR","IND"],"7602":["K. Granson","TE","TEN"],"12516":["K. Mullings","RB","TEN"],"12357":["D. Martin-Robinson","TE","TEN"],"3668":["J. Perkins","TE","NYJ"],"13315":["D. Connors","RB","LAR"],"6039":["T. Johnson","RB","BUF"],"6803":["B. Aiyuk","WR","SF"],"12544":["L. Allen Jr.","RB","JAX"],"9997":["Z. Flowers","WR","BAL"],"8172":["G. Dulcich","TE","MIA"],"12506":["H. Fannin Jr.","TE","CLE"],"13870":["Q. Moore","TE","WAS"],"11421":["R. Miller","WR","NE"],"4144":["J. Smith","TE","GB"],"13346":["D. Boston","WR","CLE"],"8126":["W. Robinson","WR","TEN"],"8249":["L. Krull","TE","DEN"],"13712":["H. Large","TE","CHI"],"13345":["J. Coleman","RB","DEN"],"11168":["X. Smith","WR","SF"],"6853":["V. Jefferson","WR","WAS"],"13293":["J. Lane","WR","BAL"],"8489":["D. Ogletree","TE","IND"],"6528":["J. Slye","K","TEN"],"13122":["C. Runyon","TE","LV"],"8168":["S. Moore","WR","GB"],"5045":["C. Sutton","WR","DEN"],"9497":["J. Hyatt","WR","NYG"],"CHI":["Bears","DEF","CHI"],"8122":["Z. Knight","RB","ARI"],"7594":["C. Hubbard","RB","CAR"],"11508":["P. Fant","TE","DAL"],"11834":["D. Vele","WR","NO"],"11789":["J. Karty","K","LAR"],"13402":["S. Bell","WR","BUF"],"8127":["C. Kolar","TE","LAC"],"3200":["S. Shepard","WR","NYJ"],"6175":["K. Whyte","RB","GB"],"4718":["D. Ogunbowale","RB","HOU"],"7559":["I. Smith-Marsette","WR","CAR"],"11748":["B. Means","WR","KC"],"5744":["E. Massington","WR","NO"],"12412":["T. Jennings","RB","NE"],"CIN":["Bengals","DEF","CIN"],"12711":["T. Loop","K","BAL"],"9482":["M. Mayer","TE","LV"],"138":["B. Roethlisberger","QB","PIT"],"2020":["C. Santos","K","CHI"],"7042":["T. Bass","K","BUF"],"8800":["M. Davis","RB","DAL"],"13278":["M. Klare","TE","LAR"],"12803":["L. Grimm","WR","LAC"],"11558":["S. Hartman","QB","WAS"],"10235":["R. Johnson","RB","CHI"],"3451":["K. Fairbairn","K","HOU"],"3155":["L. Treadwell","WR","IND"],"8162":["S. Howell","QB","DAL"],"11560":["C. Williams","QB","CHI"],"13434":["W. Kacmarek","TE","MIA"],"6012":["T. Homer","RB","PIT"],"4349":["T. Mizzell","RB","NYG"],"6798":["J. Reagor","WR","MIA"],"4035":["A. Kamara","RB","NO"],"8756":["B. Johnson","WR","PIT"],"11569":["J. Hunter","RB","NO"],"11320":["N. Remigio","WR","KC"],"13308":["B. Sharp","TE","TB"],"11716":["T. Reiman","TE","ARI"],"13319":["O. Delp","TE","NO"],"11783":["R. Flournoy","WR","DAL"],"4683":["A. Bailey","QB","BAL"],"10871":["L. Schoonmaker","TE","DAL"],"11435":["E. Wilson","RB","SEA"],"12746":["J. Richardson","WR","CHI"],"2747":["J. Myers","K","SEA"],"3257":["J. Brissett","QB","BAL"],"9758":["C. Stroud","QB","HOU"],"10231":["E. Higgins","TE","ARI"],"4972":["M. Rudolph","QB","PIT"],"9227":["I. Abanikanda","RB","DAL"],"11113":["J. Wilson","TE","TEN"],"5970":["G. Dortch","WR","BUF"],"13075":["M. Price","WR","MIN"],"DEN":["Broncos","DEF","DEN"],"11433":["N. Adkins","TE","DEN"],"9502":["T. Dell","WR","HOU"],"2307":["M. Mariota","QB","WAS"],"11539":["J. Bates","K","DET"],"11056":["J. Wayne","WR","MIA"],"1466":["T. Kelce","TE","KC"],"8214":["C. Turner","TE","MIA"],"4017":["D. Watson","QB","CLE"],"4464":["N. Mullens","QB","JAX"],"13011":["B. Presley","WR","LAR"],"13329":["M. Benson","WR","LV"],"8139":["Z. White","RB","NO"],"11588":["J. Jordan","RB","HOU"],"13630":["E. Svoboda","TE","LAC"],"12510":["J. Milroe","QB","SEA"],"2505":["D. Waller","TE","CAR"],"11963":["C. Collier","RB","LV"],"11034":["J. Brooks","WR","ARI"],"12045":["J. Westover","TE","WAS"],"6451":["S. Carlson","TE","CHI"],"8210":["C. Okonkwo","TE","WAS"],"12670":["K. Lambert-Smith","WR","LAC"],"13306":["T. Green","QB","CLE"],"11256":["T. Bagent","QB","CHI"],"13770":["J. Sturdivant","WR","GB"],"5086":["M. Valdes-Scantling","WR","PIT"],"12851":["R. Fairweather","TE","ARI"],"11911":["J. Jones","WR","MIN"],"1433":["B. McManus","K","LAR"],"4490":["W. Houston","TE","CAR"],"13317":["T. Hurst III","WR","TB"],"13435":["J. Royer","TE","CLE"],"7865":["B. Smith","WR","PIT"],"5850":["J. Jacobs","RB","GB"],"9753":["Z. Charbonnet","RB","SEA"],"12267":["Q. Ismail","WR","CHI"],"11065":["A. Martinez","QB","SEA"],"4314":["J. Mundt","TE","PHI"],"7527":["M. Jones","QB","SF"],"13350":["J. Fagnano","QB","BAL"],"13491":["K. Wetjen","WR","PIT"],"13289":["D. Allar","QB","PIT"],"11604":["B. Bowers","TE","LV"],"11566":["J. Daniels","QB","WAS"],"6588":["T. Kennedy","WR","DET"],"13338":["K. Coleman Jr.","WR","MIA"],"13322":["S. Roush","TE","CHI"],"12185":["S. Shrader","K","IND"],"13314":["L. Altmyer","QB","DET"],"5001":["D. Schultz","TE","HOU"],"11643":["J. Wright","RB","MIA"],"13827":["T. Arkin","TE","NE"],"12658":["J. Hawes","TE","BUF"],"13602":["J. Strand","QB","ATL"],"12788":["W. Sheppard","WR","MIA"],"11506":["J. Cropper","WR","NO"],"12797":["A. Marshall","RB","CAR"],"5374":["J. Watson","WR","KC"],"9756":["J. Addison","WR","MIN"],"4033":["D. Njoku","TE","LAC"],"13621":["D. Bell","WR","MIN"],"13324":["M. Hibner","TE","BAL"],"13298":["K. Concepcion Jr.","WR","CLE"],"13861":["D. Sobkowicz","WR","HOU"],"5849":["K. Murray","QB","MIN"],"5409":["T. Hudson","TE","CIN"],"13663":["W. Grimes","WR","SF"],"12889":["B. Collins","WR","ATL"],"11068":["M. Tinsley","WR","CIN"],"6819":["M. Pittman Jr.","WR","PIT"],"11575":["R. Davis","RB","BUF"],"7002":["J. Johnson","TE","NO"],"12485":["T. Johnson","WR","TB"],"13981":["K. Katsis","WR","DEN"],"13541":["L. Bond","WR","HOU"],"13913":["P. Gurd","TE","LV"],"12738":["P. Mafah","RB","NYG"],"5846":["D. Metcalf","WR","PIT"],"8155":["B. Hall","RB","NYJ"],"13437":["N. Whittington","RB","HOU"],"KC":["Chiefs","DEF","KC"],"6992":["M. Warren","RB","DET"],"7716":["J. Bates","TE","WAS"],"13333":["D. Burks","WR","IND"],"5638":["S. Roland","WR","CHI"],"6427":["A. Dulin","WR","IND"],"6806":["J. Dobbins","RB","DEN"],"6813":["J. Taylor","RB","IND"],"11564":["D. Maye","QB","NE"],"13312":["J. Kattus","TE","CIN"],"6828":["A. Dillon","RB","CAR"],"11820":["D. Culp","TE","MIN"],"13743":["J. Manjack IV","WR","NYJ"],"7588":["J. Williams","RB","DAL"],"MIN":["Vikings","DEF","MIN"],"11599":["C. Stover","TE","HOU"],"8188":["T. Thornton","WR","KC"],"4936":["S. Howard","QB","SEA"],"2334":["P. Dorsett II","WR","LV"],"6865":["C. Parkinson","TE","LAR"],"13294":["M. Lemon","WR","PHI"],"12505":["J. Royals","WR","KC"],"12501":["M. Golden","WR","GB"],"3309":["W. Smallwood","RB","WAS"],"13412":["K. Law","WR","DET"]};
-const DUR = { overview: 15000, duel: 14000, standings: 16000, highlights: 15000, fact: 16000 };
+const DUR = { overview: 15000, duel: 14000, standings: 16000, highlights: 15000, fact: 16000, oscars: 16000, power: 16000 };
 const HUES = ["#ffb43b","#5ec8ff","#3ccf86","#ff7a9c","#b892ff","#ffd65e","#4fe0c8","#ff8f5a","#8fb2ff","#c7e66b","#f29bff","#7fd6ff"];
 const ABBR_FIX = { WSH: "WAS" };
 const SLOT = { QB:"QB", RB:"RB", WR:"WR", TE:"TE", FLEX:"FLX", K:"K", DEF:"DEF", SUPER_FLEX:"SF", REC_FLEX:"RFX", WRRB_FLEX:"W/R", IDP_FLEX:"IDP" };
 
-const S = { league:null, users:{}, rosters:[], week:null, matchups:[], games:{}, gamesList:[], lastOk:0, idx:0, paused:false, views:[], curKey:null, curHtml:"", pTried:0, pCacheApplied:false, rivPick:0, bp:new Map(), bpDone:new Set(), bpWeek:null, bpSeen:null, bpSig:"", hist:null, facts:[], factPick:0, factShown:-1, histSpan:"" };
+const S = { league:null, users:{}, rosters:[], week:null, matchups:[], games:{}, gamesList:[], lastOk:0, idx:0, paused:false, views:[], curKey:null, curHtml:"", pTried:0, pCacheApplied:false, rivPick:0, allPlayers:null, allT:0, bp:new Map(), bpDone:new Set(), bpWeek:null, bpSeen:null, bpSig:"", hist:null, facts:[], factPick:0, factShown:-1, histSpan:"" };
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const f1 = n => (Math.round((n||0)*100)/100).toFixed(2);
@@ -239,21 +251,36 @@ async function loadScores(){
 // The built-in PLAYERS list goes stale (trades, releases). Once a day, refresh name/position/team of all
 // rostered players from Sleeper (their docs ask for /players/nfl at most once per day) and cache the slim result.
 const PKEY = "wffl-players-v1";
-async function ensurePlayers(){
+// extra: further player ids (e.g. everyone rostered in past seasons, needed for positions in the optimal lineup)
+async function ensurePlayers(extra){
   const c = lsGet(PKEY);
   if (!S.pCacheApplied && c && c.map) { Object.assign(PLAYERS, c.map); S.pCacheApplied = true; }
-  const ids = new Set(); S.matchups.forEach(m => (m.players||[]).forEach(p => ids.add(p)));
+  const ids = new Set(extra || []); S.matchups.forEach(m => (m.players||[]).forEach(p => ids.add(p)));
   const fresh = c && Date.now() - c.t < 864e5;
-  const missing = [...ids].some(id => !PLAYERS[id]);
-  if (fresh && !missing) return;
-  if (Date.now() - S.pTried < 36e5) return;   // at most one attempt per hour, also after errors
-  S.pTried = Date.now();
-  try {
-    const all = await j(`${API}/players/nfl`);
-    const map = (fresh && c.map) || {};
-    for (const id of ids){ const v = all[id]; if (v) map[id] = PLAYERS[id] = [v.position==="DEF" ? v.last_name : `${(v.first_name||"")[0]||""}. ${v.last_name||""}`, v.position||"", v.team||""]; }
-    lsSet(PKEY, { t: Date.now(), map });
-  } catch(e){}
+  if (fresh && [...ids].every(id => PLAYERS[id])) return;
+  if (!S.allPlayers || Date.now() - S.allT > 864e5){
+    if (Date.now() - S.pTried < 36e5) return;   // at most one download per hour, also after errors
+    S.pTried = Date.now();
+    try { S.allPlayers = await j(`${API}/players/nfl`); S.allT = Date.now(); } catch(e){ return; }
+  }
+  const map = (c && c.map) || {};
+  for (const id of ids){ const v = S.allPlayers[id]; if (v) map[id] = PLAYERS[id] = [v.position==="DEF" ? v.last_name : `${(v.first_name||"")[0]||""}. ${v.last_name||""}`, v.position||"", v.team||""]; }
+  lsSet(PKEY, { t: fresh ? c.t : Date.now(), map });
+}
+
+/* ---------- optimal lineup ---------- */
+const ELIG = { QB:["QB"], RB:["RB"], WR:["WR"], TE:["TE"], K:["K"], DEF:["DEF"], DL:["DL"], LB:["LB"], DB:["DB"],
+  FLEX:["RB","WR","TE"], WRRB_FLEX:["WR","RB"], REC_FLEX:["WR","TE"], SUPER_FLEX:["QB","RB","WR","TE"], IDP_FLEX:["DL","LB","DB"] };
+const NPOS = { DE:"DL", DT:"DL", NT:"DL", CB:"DB", S:"DB", SS:"DB", FS:"DB", ILB:"LB", OLB:"LB", MLB:"LB" };
+const posOf = pid => { const p = PLAYERS[pid] && PLAYERS[pid][1]; return p ? (NPOS[p] || p) : /^[A-Z]{2,3}$/.test(pid) ? "DEF" : ""; };
+const lineupSlots = rp => (rp || []).filter(p => p !== "BN" && p !== "IR" && p !== "TAXI");
+// best possible lineup in hindsight: fill the most restrictive slots first with the best eligible player
+function optimalPts(slots, pp){
+  const pool = Object.entries(pp || {}).map(([pid, v]) => ({ pid, v: v || 0, pos: posOf(pid) })).filter(x => x.pos).sort((a, b) => b.v - a.v);
+  const used = new Set(); let sum = 0;
+  slots.filter(s => ELIG[s]).sort((a, b) => ELIG[a].length - ELIG[b].length).forEach(s => {
+    const x = pool.find(x => !used.has(x.pid) && ELIG[s].includes(x.pos)); if (x) { used.add(x.pid); sum += x.v; } });
+  return Math.round(sum * 100) / 100;
 }
 async function loadGames(){
   try {
@@ -382,11 +409,86 @@ function vHighlights(){
     <div class="box"><h3>Top-Spieler (Starter)</h3>${tops}</div>
     <div class="box"><h3>Auf der Bank verschenkt</h3>${benches}</div></div>` };
 }
+/* weekly awards: computed live from this week's matchups */
+function weekAwards(){
+  const ps = pairs(); if (!ps.length) return null;
+  const T = S.matchups.filter(m => m.matchup_id != null);
+  if (!T.some(m => (m.points || 0) > 0)) return null;
+  const slots = lineupSlots(S.league.roster_positions);
+  const X = T.map(m => { const p = m.points || 0, opt = Math.max(p, optimalPts(slots, m.players_points));
+    const ghosts = (m.starters || []).map((pid, k) => ({ pid, v: (m.starters_points || [])[k] || 0 }))
+      .filter(x => x.pid === "0" || (!x.v && S.gamesList.length && pStatus(x.pid).state === "post"));
+    const st = new Set(m.starters || []); let bb = null;
+    Object.entries(m.players_points || {}).forEach(([pid, v]) => { if (!st.has(pid) && (!bb || v > bb.v)) bb = { pid, v }; });
+    return { m, t: team(m.roster_id), p, opt, gap: opt - p, eff: opt ? p / opt : 1, ghosts, bb }; });
+  const by = Object.fromEntries(X.map(x => [x.m.roster_id, x]));
+  const sorted = X.map(x => x.p).sort((a, b) => b - a), n = sorted.length;
+  const med = n % 2 ? sorted[(n - 1) / 2] : (sorted[n / 2 - 1] + sorted[n / 2]) / 2;
+  const duel = ps.map(([a, b]) => { const [w, l] = a.points >= b.points ? [by[a.roster_id], by[b.roster_id]] : [by[b.roster_id], by[a.roster_id]]; return { w, l }; }).filter(d => d.w.p !== d.l.p);
+  const nm = x => x.t.name, pn = pid => pid === "0" ? "leerer Platz" : (PLAYERS[pid] || [pid])[0];
+  const A = [];
+  const effBest = X.filter(x => x.p > 0).sort((a, b) => b.eff - a.eff || b.p - a.p)[0];
+  A.push(["Beste Aufstellung", effBest && Math.round(effBest.eff * 100) + "%", effBest && nm(effBest), effBest && (effBest.gap < .01 ? "die optimale Aufstellung erwischt" : `nur ${f1(effBest.gap)} Pkt. auf der Bank liegen gelassen`)]);
+  const flop = [...X].sort((a, b) => b.gap - a.gap)[0];
+  A.push(["Aufstellungs-Flop", flop && flop.gap > 0 && f1(flop.gap), flop && nm(flop), flop && `Punkte auf der Bank · optimal wären ${f1(flop.opt)} gewesen`]);
+  const dusel = duel.filter(d => d.w.p < med).sort((a, b) => a.w.p - b.w.p)[0];
+  A.push(["Dusel der Woche", dusel && f1(dusel.w.p), dusel && nm(dusel.w), dusel && `vorne gegen ${nm(dusel.l)} – trotz Score unter dem Liga-Median`]);
+  const pech = duel.filter(d => d.l.p > med).sort((a, b) => b.l.p - a.l.p)[0];
+  A.push(["Pech der Woche", pech && f1(pech.l.p), pech && nm(pech.l), pech && `hinten gegen ${nm(pech.w)} – damit hätte es gegen ${X.filter(x => x.p < pech.l.p).length} Teams gereicht`]);
+  const gh = X.filter(x => x.ghosts.length).sort((a, b) => b.ghosts.length - a.ghosts.length)[0];
+  A.push(["Geisterspieler", gh && gh.ghosts.length, gh && nm(gh), gh && `Starter mit 0 Punkten: ${gh.ghosts.map(g => pn(g.pid)).join(", ")}`]);
+  const bench = X.filter(x => x.bb && x.bb.v > 0).sort((a, b) => b.bb.v - a.bb.v)[0];
+  A.push(["Bankdrücker der Woche", bench && f1(bench.bb.v), bench && pn(bench.bb.pid), bench && `saß bei ${nm(bench)} auf der Bank`]);
+  return A;
+}
+function vOscars(){
+  const A = weekAwards() || [];
+  const running = S.gamesList.some(g => g.state !== "post");
+  const cards = A.map(([h, num, who, why]) => num != null && num !== false && num !== "" && who
+    ? `<div class="stat"><h3>${esc(h)}</h3><div class="num">${esc(num)}</div><div class="who">${esc(who)}</div><div class="why">${esc(why || "")}</div></div>`
+    : `<div class="stat none"><h3>${esc(h)}</h3><div class="num">–</div><div class="why">diese Woche kein Kandidat</div></div>`).join("");
+  return { title: `Wochen-Oscars · Woche ${S.week}${running ? " · Zwischenstand" : ""}`, dur: DUR.oscars, html: `<div class="awards">${cards}</div>` };
+}
+
+/* power ranking: current season, completed weeks (from the history data) */
+function powerTable(s, upto){
+  const G2 = s.games.filter(g => g[0] <= upto), SC2 = s.scores.filter(x => x[0] <= upto);
+  const byW = {}; SC2.forEach(x => (byW[x[0]] ||= []).push(x[2]));
+  const t = {}, get = o => (t[o] ||= { o, w: 0, l: 0, tt: 0, pf: 0, n: 0, ap: 0, apn: 0, last: [] });
+  G2.forEach(([w, a, pa, b, pb]) => [[a, pa, pb], [b, pb, pa]].forEach(([o, pf, pg]) => { const x = get(o); if (pf > pg) x.w++; else if (pf < pg) x.l++; else x.tt++; }));
+  SC2.forEach(([w, o, p]) => { const x = get(o), a = byW[w]; x.pf += p; x.n++; x.ap += a.filter(q => q < p).length + (a.filter(q => q === p).length - 1) / 2; x.apn += a.length - 1; x.last.push([w, p]); });
+  const L = Object.values(t).filter(x => x.n); if (L.length < 3) return null;
+  L.forEach(x => { x.avg = x.pf / x.n; x.apc = x.apn ? x.ap / x.apn : 0; const g = x.w + x.l + x.tt; x.wp = g ? (x.w + x.tt / 2) / g : 0;
+    const l3 = x.last.sort((a, b) => a[0] - b[0]).slice(-3); x.l3 = l3.reduce((s, q) => s + q[1], 0) / l3.length; });
+  const mA = Math.max(...L.map(x => x.avg)) || 1, m3 = Math.max(...L.map(x => x.l3)) || 1;
+  L.forEach(x => x.score = 100 * (0.35 * x.apc + 0.35 * x.avg / mA + 0.15 * x.wp + 0.15 * x.l3 / m3));
+  return L.sort((a, b) => b.score - a.score);
+}
+function powerData(){
+  const s = S.hist && S.hist[S.hist.length - 1]; if (!s || s.id !== LEAGUE) return null;
+  const weeks = [...new Set(s.games.map(g => g[0]))].sort((a, b) => a - b); if (weeks.length < 2) return null;
+  const last = weeks[weeks.length - 1], now = powerTable(s, last), before = powerTable(s, weeks[weeks.length - 2]);
+  return now ? { s, last, now, before } : null;
+}
+function vPower(){
+  const P = powerData(); if (!P) return { title: "Power Ranking", dur: 4000, html: `<div class="empty">Power Ranking wird berechnet …</div>` };
+  const prev = P.before ? P.before.map(x => x.o) : [];
+  const rows = P.now.map((x, i) => { const r = S.rosters.find(r => r.owner_id === x.o); const t = r ? team(r.roster_id) : { name: (P.s.names[x.o] || {}).dn || "?", initials: "?", color: "#555", logo: "" };
+    const pi = prev.indexOf(x.o), d = pi < 0 ? 0 : pi - i;
+    const arrow = d > 0 ? `<span class="up">▲${d}</span>` : d < 0 ? `<span class="down">▼${-d}</span>` : `<span class="same">–</span>`;
+    return `<tr><td>${i + 1}</td><td class="team"><div class="tb">${badge(t)}<span>${esc(t.name)}</span></div></td><td>${x.w}-${x.l}${x.tt ? "-" + x.tt : ""}</td><td>${x.avg.toFixed(1)}</td><td>${Math.round(x.apc * 100)}%</td><td>${x.l3.toFixed(1)}</td><td class="pw">${x.score.toFixed(1)}</td><td>${arrow}</td></tr>`; }).join("");
+  return { title: `Power Ranking · nach Woche ${P.last}`, dur: DUR.power, html: `<div style="min-width:0"><table><thead><tr><th>#</th><th>Team</th><th>W-L</th><th>Ø Pkt</th><th>All-Play</th><th>Ø letzte 3</th><th>Power</th><th>Trend</th></tr></thead><tbody>${rows}</tbody></table>
+    <p class="note">Power = 35 % All-Play-Quote (Bilanz, wenn man jede Woche gegen alle spielt) + 35 % Punkteschnitt + 15 % echte Siegquote + 15 % Form der letzten 3 Wochen. Trend gegenüber der Vorwoche.</p></div>` };
+}
+
 function buildViews(){
   if (!S.league || !S.matchups.length) return [];
   const v = [vOverview], ps = pairs();
   ps.forEach((p,i) => { const f = () => vDuel(p[0], p[1], i); f.key = "duel" + i; v.push(f); });
-  v.splice(4, 0, vStandings); v.push(vHighlights);
+  v.splice(4, 0, vStandings);
+  if (powerData()) v.splice(5, 0, vPower);
+  v.push(vHighlights);
+  if (weekAwards()) v.push(vOscars);
   if (S.facts.length) v.push(vFact);   // one fact per round
   if (S.facts.length && S.week === RIV_WEEK) v.splice(1, 0, vRivalFact);   // Rivalry Week: extra rivalry slot
   return v;
@@ -395,7 +497,6 @@ function buildViews(){
 /* ---------- history: all seasons via previous_league_id ---------- */
 const HKEY = "wffl-hist-v1-";
 const RIV_WEEK = 13;                       // Rivalry Week
-const MY_TEAM = "Millvalley Sentinels", MY_RIVAL = "Werdenfels Wolves";
 const FOUNDED = 2017;   // erste Saison 2017/18
 // Meister aus der Zeit vor Sleeper (Daten der alten App gibt es nicht mehr)
 const LEGACY_CHAMPS = [
@@ -408,7 +509,7 @@ const lsSet = (k,v) => { try { localStorage.setItem(k, JSON.stringify(v)); } cat
 const r2 = n => Math.round((n||0)*100)/100;
 
 async function loadSeason(id, current){
-  if (!current){ const c = lsGet(HKEY+id); if (c && c.v === 2) return c; }
+  if (!current){ const c = lsGet(HKEY+id); if (c && c.v === 3) return c; }
   const [lg, users, rosters] = await Promise.all([j(`${API}/league/${id}`), j(`${API}/league/${id}/users`), j(`${API}/league/${id}/rosters`)]);
   const done = lg.status === "complete";
   const pStart = (lg.settings && lg.settings.playoff_week_start) || 15;
@@ -427,16 +528,28 @@ async function loadSeason(id, current){
   const O = rid => owner[rid] || `r${rid}`;
   const names = {}; users.forEach(u => names[u.user_id] = { dn: u.display_name || "", team: ((u.metadata && u.metadata.team_name) || "").trim() });
 
+  // positions of everyone rostered this season (for the optimal lineup)
+  const ids = new Set(); data.forEach(ms => (ms || []).forEach(m => Object.keys(m.players_points || {}).forEach(p => ids.add(p))));
+  await ensurePlayers([...ids]);
+  const slots = lineupSlots(lg.roster_positions);
+
   // regular season games and scores; starter points per week/roster/player; player points while rostered
-  const games = []; let scores = []; const stp = {}; const ppTot = {};
+  // score row: [week, owner, points, bench, top starter, optimal lineup, zero-point starters, kicker pts, worst DEF [pts, pid]]
+  const games = []; let scores = []; const stp = {}; const ppTot = {}; const starts = {};
   data.forEach((ms, i) => {
     const w = weeks[i], by = {}; stp[w] = {};
     (ms || []).forEach(m => {
       const p = r2(m.points), st = new Set(m.starters || []); const sp = (stp[w][m.roster_id] = {});
       let bench = 0; Object.entries(m.players_points || {}).forEach(([pid, v]) => { ppTot[pid] = (ppTot[pid] || 0) + (v || 0); if (!st.has(pid)) bench += v || 0; });
-      let top = null; (m.starters || []).forEach((pid, k) => { const v = (m.starters_points || [])[k] || 0; if (pid !== "0") { sp[pid] = v; if (!top || v > top[1]) top = [pid, r2(v)]; } });
+      let top = null, kick = 0, def = null; const zeros = [], so = (starts[O(m.roster_id)] ||= {});
+      (m.starters || []).forEach((pid, k) => { const v = (m.starters_points || [])[k] || 0;
+        if (!pid || pid === "0") { zeros.push("0"); return; }
+        sp[pid] = v; so[pid] = (so[pid] || 0) + 1; if (!top || v > top[1]) top = [pid, r2(v)];
+        if (!v) zeros.push(pid);
+        if (slots[k] === "K") kick += v;
+        if (slots[k] === "DEF" && (!def || v < def[0])) def = [r2(v), pid]; });
       if (m.matchup_id != null) (by[m.matchup_id] ||= []).push({ o: O(m.roster_id), p });
-      scores.push([w, O(m.roster_id), p, r2(bench), top]);
+      scores.push([w, O(m.roster_id), p, r2(bench), top, r2(Math.max(p, optimalPts(slots, m.players_points))), zeros, r2(kick), def]);
     });
     Object.values(by).forEach(g => { if (g.length === 2 && (g[0].p || g[1].p)) games.push([w, g[0].o, g[0].p, g[1].o, g[1].p]); });
   });
@@ -454,7 +567,7 @@ async function loadSeason(id, current){
   }
 
   // transactions
-  const trades = [], adds = [], moves = {};
+  const trades = [], adds = [], drops = [], moves = {};
   const mv = o => (moves[o] ||= { trade: 0, waiver: 0, fa: 0, faab: 0 });
   txData.forEach(list => (list || []).forEach(t => {
     if (t.status !== "complete") return; const w = t.leg || 1;
@@ -467,8 +580,13 @@ async function loadSeason(id, current){
       const bid = (t.settings && t.settings.waiver_bid) || 0;
       Object.entries(t.adds || {}).forEach(([pid, rid]) => { const o = O(rid); const m = mv(o); if (t.type === "waiver") m.waiver++; else m.fa++; m.faab += bid;
         adds.push({ o, pid, w, type: t.type, bid, pts: after(rid, pid, w) }); });
+      Object.entries(t.drops || {}).forEach(([pid, rid]) => drops.push({ o: O(rid), pid, w }));
     }
   }));
+  // dropped, then picked up by another manager: starter points for the new team
+  const regrets = drops.map(d => { const a = adds.filter(a => a.pid === d.pid && a.o !== d.o && a.w >= d.w).sort((x, y) => x.w - y.w)[0];
+      return a && a.pts > 0 ? { o: d.o, pid: d.pid, w: d.w, to: a.o, w2: a.w, pts: a.pts } : null; })
+    .filter(Boolean).sort((a, b) => b.pts - a.pts).slice(0, 15);
   const topAdds = [...adds].sort((a, b) => b.pts - a.pts).slice(0, 12);
   const topBids = adds.filter(a => a.bid > 0).sort((a, b) => b.bid - a.bid).slice(0, 8);
 
@@ -477,8 +595,8 @@ async function loadSeason(id, current){
   const draft = (picks || []).map(p => { const md = p.metadata || {}; if (md.last_name) pn[p.player_id] = [`${(md.first_name || "")[0] || ""}. ${md.last_name}`.trim(), md.position || ""];
     return { rd: p.round, no: p.pick_no, o: p.roster_id ? O(p.roster_id) : (p.picked_by || "?"), pid: p.player_id, pts: r2(ppTot[p.player_id] || 0) }; });
 
-  const s = { v: 2, id, season: String(lg.season || ""), prev: lg.previous_league_id, status: lg.status, names, games, scores, champ, second, bracket,
-    trades, topAdds, topBids, moves, draft, pn, nTx: trades.length + adds.length };
+  const s = { v: 3, id, season: String(lg.season || ""), prev: lg.previous_league_id, status: lg.status, names, games, scores, champ, second, bracket,
+    trades, topAdds, topBids, moves, draft, pn, regrets, starts, nTx: trades.length + adds.length };
   if (!current && done) lsSet(HKEY+id, s);
   return s;
 }
@@ -498,7 +616,7 @@ function computeFacts(){
   const tm = (s, o) => (s.names[o] && s.names[o].team) || "";
   const SC = [], G = [];
   H.forEach((s, si) => {
-    s.scores.forEach(([w, o, p, bench, top]) => SC.push({ s, si, w, o, p, bench, top }));
+    s.scores.forEach(([w, o, p, bench, top, opt, zeros, kick, def]) => SC.push({ s, si, w, o, p, bench, top, opt: opt || p, zeros: zeros || [], kick: kick || 0, def: def || null }));
     s.games.forEach(([w, a, pa, b, pb]) => G.push({ s, si, w, a, pa, b, pb, d: r2(Math.abs(pa - pb)) }));
   });
   if (!G.length) { S.facts = []; return; }
@@ -787,7 +905,6 @@ function computeFacts(){
   const rp = {}; RG.forEach(g => { const [a, b] = [g.a, g.b].sort(); const x = (rp[a + "|" + b] ||= { a, b, wa: 0, wb: 0, t: 0, list: [] });
     const pa = g.a === a ? g.pa : g.pb, pb = g.a === a ? g.pb : g.pa; if (pa > pb) x.wa++; else if (pb > pa) x.wb++; else x.t++; x.list.push({ g, pa, pb }); });
   const RP = Object.values(rp).map(x => ({ ...x, n: x.list.length, last: x.list[x.list.length - 1].g.s.season })).sort((x, y) => y.n - x.n || Math.abs(y.wa - y.wb) - Math.abs(x.wa - x.wb));
-  const myA = t2o[MY_TEAM.toLowerCase()], myB = t2o[MY_RIVAL.toLowerCase()];
   if (RP.length) {
     const dom = [...RP].filter(x => x.n >= 2).sort((x, y) => Math.abs(y.wa - y.wb) / y.n - Math.abs(x.wa - x.wb) / x.n)[0];
     F.push(() => ({ kick: `Rivalry Week · Woche ${RIV_WEEK}`, rival: true,
@@ -795,54 +912,150 @@ function computeFacts(){
       sub: `Woche ${RIV_WEEK} ist jedes Jahr Rivalry Week. Ausgewertet: alle Rivalry-Week-Duelle seit ${H[0].season}.`, box: "Bilanz in der Rivalry Week",
       rows: RP.slice(0, 7).map(x => ({ who: `${TN(x.a)} vs. ${TN(x.b)}`, small: `${x.n}× · zuletzt ${x.last}`, v: rec(x.wa, x.wb, x.t) })) }));
   }
-  if (myA && myB) {
-    const [a, b] = [myA, myB].sort(); const x = rp[a + "|" + b]; const all = pr[a + "|" + b];
-    const ws = o => x ? (o === x.a ? x.wa : x.wb) : 0; const wAll = o => all ? (o === all.a ? all.wa : all.wb) : 0;
-    const head = `${MY_TEAM} vs. ${MY_RIVAL}`;
-    F.push(() => ({ kick: "Die Rivalität · Sentinels vs. Wolves", rival: true,
-      title: !x ? `${head}: das erste Rivalry-Week-Duell steht noch aus` : ws(myA) === ws(myB) ? `${head}: ${rec(ws(myA), ws(myB), x.t)} – komplett ausgeglichen` : `${ws(myA) > ws(myB) ? MY_TEAM : MY_RIVAL} führt in der Rivalry Week mit ${rec(Math.max(ws(myA), ws(myB)), Math.min(ws(myA), ws(myB)), x.t)}`,
-      sub: `${all ? `Alle Hauptrundenduelle: ${rec(wAll(myA), wAll(myB), all.t)} aus Sicht der Sentinels. ` : ""}${S.week < RIV_WEEK && H[cur].id === LEAGUE ? `Nächstes Kapitel: Woche ${RIV_WEEK}, noch ${RIV_WEEK - S.week} ${RIV_WEEK - S.week === 1 ? "Woche" : "Wochen"}.` : S.week === RIV_WEEK ? "Diese Woche wird das nächste Kapitel geschrieben." : ""}`,
-      num: x ? rec(ws(myA), ws(myB), x.t) : "0‑0", unit: "Sentinels – Wolves", box: x ? "Alle Rivalry-Week-Duelle" : "",
-      rows: x ? x.list.slice().reverse().slice(0, 7).map(m => { const sa = myA === x.a ? m.pa : m.pb, sb = myA === x.a ? m.pb : m.pa;
-        return { who: sa > sb ? MY_TEAM : sb > sa ? MY_RIVAL : "Unentschieden", small: m.g.s.season, v: `${f1(sa)} : ${f1(sb)}` }; }) : [] }));
+  // ===== 26+ new facts (balanced: computed for every manager alike) =====
+  const scAt = {}; SC.forEach(x => scAt[`${x.si}-${x.w}-${x.o}`] = x);
+  const perOwner = (fn, min) => owners.map(o => ({ o, ...fn(o) })).filter(x => !min || x.n >= min);
+
+  // 26 lineup efficiency vs. the best possible lineup in hindsight
+  const eff = perOwner(o => { const a = SC.filter(x => x.o === o && x.opt > 0); const p = a.reduce((s, x) => s + x.p, 0), m = a.reduce((s, x) => s + x.opt, 0);
+    return { e: m ? p / m * 100 : 0, lost: (m - p) / (a.length || 1), n: a.length }; }, 8).sort((a, b) => b.e - a.e);
+  if (eff.length > 2) {
+    F.push(() => ({ kick: "Trainer des Jahres · Allzeit", title: `${N(eff[0].o)} holt aus dem eigenen Kader das meiste heraus`,
+      sub: `${eff[0].e.toFixed(1)} % der möglichen Punkte. Verglichen wird jede Woche mit der bestmöglichen Aufstellung aus dem ganzen Kader (im Nachhinein) · ${span}.`,
+      num: eff[0].e.toFixed(1) + "%", unit: "Aufstellungs-Quote", box: "Aufstellungs-Quote",
+      rows: eff.slice(0, 6).map(x => ({ who: N(x.o), small: `${f1(x.lost)} Pkt. pro Woche liegen gelassen`, v: x.e.toFixed(1) + "%" })) }));
+    const z = [...eff].reverse();
+    F.push(() => ({ kick: "Aufstellungs-Flop · Allzeit", title: `Niemand lässt so viele Punkte auf der Bank wie ${N(z[0].o)}`,
+      sub: `Im Schnitt ${f1(z[0].lost)} Punkte pro Woche, die mit der optimalen Aufstellung drin gewesen wären.`,
+      num: f1(z[0].lost), unit: "Punkte pro Woche verschenkt", box: "Verschenkte Punkte pro Woche",
+      rows: z.slice(0, 6).map(x => ({ who: N(x.o), small: `Quote ${x.e.toFixed(1)} %`, v: f1(x.lost) })) }));
   }
 
-  // 25 Sentinels vs. Wolves: only comparisons the Sentinels actually win
-  if (myA && myB) {
-    const A = myA, B = myB, SN = "Sentinels", WN = "Wolves";
-    const brag = (title, sub, a, b, unit, fmt) => { fmt = fmt || f1; F.push(() => ({ kick: "Statistik lügt nicht · Sentinels vs. Wolves", rival: true, brag: true, title, sub,
-      num: fmt(a), unit, box: "Der direkte Vergleich", rows: [{ who: MY_TEAM, v: fmt(a) }, { who: MY_RIVAL, v: fmt(b) }] })); };
-    const own = o => SC.filter(x => x.o === o);
-    const avg = a => a.length ? a.reduce((s, x) => s + x, 0) / a.length : 0;
-    if (own(A).length && own(B).length) {
-      const aA = avg(own(A).map(x => x.p)), aB = avg(own(B).map(x => x.p));
-      if (aA > aB) brag(`Die Sentinels holen im Schnitt ${f1(aA - aB)} Punkte mehr pro Woche als die Wolves`, `Alle Hauptrundenwochen seit ${H[0].season}. Woche für Woche, Jahr für Jahr.`, aA, aB, "Ø Punkte pro Woche");
-      const mA = Math.max(...own(A).map(x => x.p)), mB = Math.max(...own(B).map(x => x.p));
-      if (mA > mB) brag(`Der beste Wolves-Auftritt aller Zeiten reicht nicht an den Sentinels-Rekord heran`, `Bestwert Sentinels ${f1(mA)}, Bestwert Wolves ${f1(mB)}. Fehlen nur ${f1(mA - mB)} Punkte – Kopf hoch, Wolves.`, mA, mB, "Punkte Bestwert");
-      const nA = Math.min(...own(A).map(x => x.p)), nB = Math.min(...own(B).map(x => x.p));
-      if (nA > nB) brag(`Selbst der schlechteste Sentinels-Tag war besser als der schlechteste Wolves-Tag`, `Tiefpunkt Sentinels ${f1(nA)}, Tiefpunkt Wolves ${f1(nB)}. Auch in der Krise mit Stil.`, nA, nB, "Punkte Tiefstwert");
-      const both = Object.keys(byWeek).map(k => { const a = SC.find(x => wk(x) === k && x.o === A), b = SC.find(x => wk(x) === k && x.o === B); return a && b ? a.p > b.p : null; }).filter(x => x !== null);
-      const k = both.filter(Boolean).length;
-      if (both.length && k > both.length / 2) brag(`In ${k} von ${both.length} Wochen hatten die Sentinels mehr Punkte als die Wolves`, "Egal gegen wen beide gerade spielten – der wöchentliche Punktevergleich spricht eine klare Sprache.", k, both.length - k, "Wochen vorne", v => String(v));
-      const bA = avg(own(A).map(x => x.bench)), bB = avg(own(B).map(x => x.bench));
-      if (bA < bB) brag(`Die Sentinels stellen klüger auf: ${f1(bB - bA)} Bankpunkte pro Woche weniger verschenkt`, "Durchschnittliche Punkte, die pro Woche ungenutzt auf der Bank lagen. Weniger ist hier mehr.", bA, bB, "Ø Bankpunkte");
-    }
-    if (res[A] && res[B]) {
-      const rA = wl(A), rB = wl(B), pA = pct(rA.w, rA.t, rA.g), pB = pct(rB.w, rB.t, rB.g);
-      if (pA > pB) brag(`Die Sentinels gewinnen einfach öfter`, `Bilanz Sentinels ${rec(rA.w, rA.l, rA.t)}, Bilanz Wolves ${rec(rB.w, rB.l, rB.t)} – alle Hauptrundenspiele seit ${H[0].season}.`, pA, pB, "% Siegquote", v => v + "%");
-      const sA = (sw.find(x => x.o === A) || { best: { len: 0 } }).best.len, sB = (sw.find(x => x.o === B) || { best: { len: 0 } }).best.len;
-      if (sA > sB) brag(`Längste Siegesserie: ${sA} für die Sentinels, ${sB} für die Wolves`, "Manche gewinnen gelegentlich. Andere gewinnen in Serie.", sA, sB, "Siege in Folge", v => String(v));
-      const eA = (ap.find(x => x.o === A) || {}).exp, eB = (ap.find(x => x.o === B) || {}).exp;
-      if (eA != null && eB != null && eA > eB) brag(`Gegen die ganze Liga gerechnet holen die Sentinels ${(eA - eB).toFixed(1)} Siege mehr`, "Erwartete Siege, wenn jedes Team jede Woche gegen alle anderen spielt – da hilft kein glücklicher Spielplan.", eA, eB, "erwartete Siege", v => v.toFixed(1));
-    }
-    const tA = ch.filter(c => c.o === A).length, tB = ch.filter(c => c.o === B).length;
-    if (tA > tB) brag(tB ? `Titel zählen: ${tA} zu ${tB} für die Sentinels` : `${tA} ${tA === 1 ? "Titel" : "Titel"} für die Sentinels – die Wolves warten noch auf den ersten`,
-      `Meister seit 2017/18 inklusive der Zeit vor Sleeper. Sentinels-Titel: ${ch.filter(c => c.o === A).map(c => c.season).join(", ")}.`, tA, tB, tA === 1 ? "Meistertitel" : "Meistertitel", v => String(v));
-    const poA = PO.filter(b => b.a === A || b.b === A), poB = PO.filter(b => b.a === B || b.b === B);
-    const seasonsA = new Set(poA.map(b => b.s.season)).size, seasonsB = new Set(poB.map(b => b.s.season)).size;
-    if (seasonsA > seasonsB) brag(`Playoffs: ${seasonsA}-mal Sentinels, ${seasonsB}-mal Wolves`, "Teilnahmen am Meisterschafts-Baum seit Sleeper. Im Dezember sieht man, wer wirklich zählt.", seasonsA, seasonsB, "Playoff-Teilnahmen", v => String(v));
-    const cs = s => G.filter(g => g.si === cur).flatMap(g => [[g.a, g.pa], [g.b, g.pb]]).filter(([o]) => o === s).map(([, p]) => p);
-    if (cs(A).length && cs(B).length && avg(cs(A)) > avg(cs(B)) && H[cur].id === LEAGUE) brag(`Auch ${H[cur].season} wieder: Sentinels vor Wolves`, `Durchschnitt der laufenden Saison bis Woche ${S.week - 1}.`, avg(cs(A)), avg(cs(B)), "Ø Punkte diese Saison");
+  // 27 beaten by their own bench: losses the optimal lineup would have won
+  const selfL = all.filter(x => !x.won && !x.tie).map(x => { const s = scAt[`${x.si}-${x.w}-${x.o}`]; return s && s.opt > x.pa ? { ...x, opt: s.opt } : null; }).filter(Boolean);
+  if (selfL.length) {
+    const cnt2 = perOwner(o => ({ n: selfL.filter(x => x.o === o).length, g: res[o].length })).sort((a, b) => b.n - a.n);
+    const worst = [...selfL].sort((a, b) => (b.opt - b.pa) - (a.opt - a.pa))[0];
+    F.push(() => ({ kick: "Selbst geschlagen", title: `${N(cnt2[0].o)} hat ${cnt2[0].n}-mal verloren, obwohl der Sieg auf der eigenen Bank saß`,
+      sub: `Krassester Fall: ${when(worst)} – ${f1(worst.pf)} zu ${f1(worst.pa)} gegen ${N(worst.opp)} verloren, mit der besten Aufstellung wären es ${f1(worst.opt)} gewesen.`,
+      num: cnt2[0].n, unit: "vermeidbare Niederlagen", box: `Vermeidbare Niederlagen · ligaweit ${selfL.length}`,
+      rows: cnt2.filter(x => x.n).slice(0, 6).map(x => ({ who: N(x.o), small: `in ${x.g} Spielen`, v: x.n })) }));
+  }
+
+  // 28 ghost starters: 0 points or empty slot
+  const gh = perOwner(o => ({ n: SC.filter(x => x.o === o).reduce((s, x) => s + x.zeros.length, 0) })).sort((a, b) => b.n - a.n);
+  const ghW = [...SC].sort((a, b) => b.zeros.length - a.zeros.length)[0];
+  if (gh[0] && gh[0].n) F.push(() => ({ kick: "Geisterspieler", title: `${N(gh[0].o)} hat ${gh[0].n}-mal einen Starter mit 0 Punkten aufgestellt`,
+    sub: `Gezählt: Starter ohne einen einzigen Punkt (Bye, verletzt, inaktiv) und leere Kaderplätze · ${span}.${ghW.zeros.length > 1 ? ` Rekord in einer Woche: ${ghW.zeros.length} bei ${N(ghW.o)} (${when(ghW)}).` : ""}`,
+    num: gh[0].n, unit: "Null-Punkte-Starter", box: "Die meisten Geisterspieler", rows: gh.slice(0, 6).map(x => ({ who: N(x.o), small: "", v: x.n })) }));
+
+  // 29 schedule swap: everyone's season record with someone else's schedule
+  const swaps = [], harsh = [];
+  H.forEach((s, si) => {
+    const opp = {}, sc = {}, gs = G.filter(g => g.si === si);
+    gs.forEach(g => { (opp[g.w] ||= {})[g.a] = g.b; opp[g.w][g.b] = g.a; (sc[g.w] ||= {})[g.a] = g.pa; sc[g.w][g.b] = g.pb; });
+    const ws = Object.keys(opp); if (ws.length < 4) return;
+    const os = [...new Set(gs.flatMap(g => [g.a, g.b]))];
+    const recOf = (x, y) => { let w = 0, l = 0, t = 0; ws.forEach(k => { let z = opp[k][y]; if (z === undefined || sc[k][x] === undefined) return; if (z === x) z = y;
+      const a = sc[k][x], b = sc[k][z]; if (a > b) w++; else if (a < b) l++; else t++; }); return { w, l, t }; };
+    os.forEach(x => { const own = recOf(x, x); let better = 0;
+      os.forEach(y => { if (y === x) return; const r = recOf(x, y); const d = (r.w + r.t / 2) - (own.w + own.t / 2); if (d > 0) better++; swaps.push({ s, x, y, own, r, d }); });
+      harsh.push({ s, o: x, own, better, n: os.length - 1 }); });
+  });
+  const rr = r => rec(r.w, r.l, r.t);
+  if (swaps.length) {
+    const sw2 = [...swaps].sort((a, b) => b.d - a.d);
+    if (sw2[0].d > 0) F.push(() => ({ kick: "Falscher Spielplan", title: `Mit dem Spielplan von ${N(sw2[0].y)} wäre ${N(sw2[0].x)} ${sw2[0].s.season} ${rr(sw2[0].r)} statt ${rr(sw2[0].own)} gewesen`,
+      sub: "Gleiche Punkte, andere Gegner: Jedes Team spielt mit dem Spielplan eines anderen Teams. Ein Gradmesser dafür, wie viel der Spielplan ausmacht.",
+      num: "+" + sw2[0].d, unit: "Siege nur durch den Spielplan", box: "Die größten Spielplan-Unterschiede",
+      rows: sw2.slice(0, 5).map(x => ({ who: `${N(x.x)} mit Plan von ${N(x.y)}`, small: `${x.s.season} · echt ${rr(x.own)}`, v: rr(x.r) })) }));
+    const hh = harsh.filter(x => x.n >= 3).sort((a, b) => b.better / b.n - a.better / a.n)[0];
+    if (hh && hh.better > hh.n / 2) F.push(() => ({ kick: "Der härteste Spielplan", title: `${hh.s.season} hätten ${N(hh.o)} ${hh.better} von ${hh.n} fremden Spielplänen mehr Siege gebracht`,
+      sub: `Echte Bilanz ${rr(hh.own)}. Mit fast jedem anderen Spielplan wäre die Saison besser gelaufen.`, num: `${hh.better}/${hh.n}`, unit: "Spielpläne wären besser gewesen" }));
+  }
+
+  // 30 toughest opponents: points against
+  const pa = perOwner(o => ({ avg: res[o].reduce((s, x) => s + x.pa, 0) / res[o].length, n: res[o].length }), 8).sort((a, b) => b.avg - a.avg);
+  if (pa.length > 2) F.push(() => ({ kick: "Immer gegen die Besten", title: `Gegen ${N(pa[0].o)} spielt die Liga ihre besten Wochen`,
+    sub: `Im Schnitt ${f1(pa[0].avg)} Gegenpunkte pro Spiel – so viel musste kein anderer Manager schlagen. Am entspanntesten hatte es ${N(pa[pa.length - 1].o)} mit ${f1(pa[pa.length - 1].avg)}.`,
+    num: f1(pa[0].avg), unit: "Ø Gegenpunkte", box: "Ø Gegenpunkte pro Spiel", rows: pa.slice(0, 6).map(x => ({ who: N(x.o), small: `${x.n} Spiele`, v: f1(x.avg) })) }));
+
+  // 31 season-best gifts: opponent's best score of the season came against you
+  const sbest = {}; SC.forEach(x => { const k = x.si + "|" + x.o; if (!(k in sbest) || x.p > sbest[k]) sbest[k] = x.p; });
+  const gift = all.filter(x => x.pa > 0 && x.pa === sbest[x.si + "|" + x.opp]);
+  const gc = perOwner(o => ({ n: gift.filter(x => x.o === o).length })).sort((a, b) => b.n - a.n);
+  if (gc[0] && gc[0].n >= 2) F.push(() => ({ kick: "Karrieretag-Spender", title: `${gc[0].n}-mal hat ein Gegner ausgerechnet gegen ${N(gc[0].o)} seinen Saisonbestwert aufgelegt`,
+    sub: `Gezählt: Spiele, in denen der Gegner seinen höchsten Hauptrunden-Score der Saison erzielte · ${span}.`,
+    num: gc[0].n, unit: "Saisonbestwerte kassiert", box: "Die großzügigsten Gegner", rows: gc.filter(x => x.n).slice(0, 6).map(x => ({ who: N(x.o), small: "", v: x.n })) }));
+
+  // 32 table with an extra game against the weekly median (latest season with 4+ weeks)
+  const mSi = [...H.keys()].reverse().find(si => new Set(G.filter(g => g.si === si).map(g => g.w)).size >= 4);
+  if (mSi != null) {
+    const t = {}; all.filter(x => x.si === mSi).forEach(x => { const r = (t[x.o] ||= { o: x.o, w: 0, l: 0, t: 0, mw: 0, ml: 0, pf: 0 }); r.pf += x.pf;
+      if (x.won) r.w++; else if (x.tie) r.t++; else r.l++; const md = median(wk(x)); if (x.pf > md) r.mw++; else if (x.pf < md) r.ml++; });
+    const T = Object.values(t).map(r => ({ ...r, tw: r.w + r.mw, tl: r.l + r.ml })).sort((a, b) => b.tw - a.tw || a.tl - b.tl || b.pf - a.pf);
+    const real = Object.values(t).sort((a, b) => (b.w + b.t / 2) - (a.w + a.t / 2) || b.pf - a.pf).map(r => r.o);
+    const mover = T.map((r, i) => ({ r, d: real.indexOf(r.o) - i })).sort((a, b) => Math.abs(b.d) - Math.abs(a.d))[0];
+    F.push(() => ({ kick: `Gerechte Tabelle · ${H[mSi].season}`, title: `Mit einem Extra-Spiel gegen den Liga-Median stünde ${N(T[0].o)} ganz oben`,
+      sub: `Jede Woche zählt doppelt: das echte Duell plus ein Spiel gegen den Median aller Scores.${mover && mover.d ? ` Größter Sprung: ${N(mover.r.o)} (${mover.d > 0 ? "+" : "−"}${Math.abs(mover.d)} ${Math.abs(mover.d) === 1 ? "Platz" : "Plätze"}).` : ""}`,
+      box: "Tabelle inkl. Median-Spiele", rows: T.slice(0, 8).map(r => ({ who: N(r.o), small: `echt ${rec(r.w, r.l, r.t)} · Median ${r.mw}-${r.ml}`, v: `${r.tw}-${r.tl}` })) }));
+  }
+
+  // 33 the kicker decided it: winning margin smaller than the winner's kicker points
+  const kg = G.filter(g => g.d > 0).map(g => { const [w, , l] = WL(g); const x = scAt[`${g.si}-${g.w}-${w}`]; return x && x.kick > g.d ? { g, w, l, k: x.kick } : null; }).filter(Boolean);
+  if (kg.length) {
+    const best = [...kg].sort((a, b) => a.g.d - b.g.d)[0];
+    const kc = perOwner(o => ({ n: kg.filter(x => x.w === o).length })).filter(x => x.n).sort((a, b) => b.n - a.n);
+    F.push(() => ({ kick: "Der Kicker hat's entschieden", title: `${kg.length}-mal war der Vorsprung kleiner als die Punkte des eigenen Kickers`,
+      sub: `Ohne Kicker wären diese Duelle verloren gegangen. Knappster Fall: ${N(best.w)} gegen ${N(best.l)}, ${when(best.g)} – ${f1(best.g.d)} Punkte Vorsprung, Kicker ${f1(best.k)}.`,
+      num: kg.length, unit: "Kicker-Siege", box: "Die meisten Kicker-Siege", rows: kc.slice(0, 6).map(x => ({ who: N(x.o), small: "", v: x.n })) }));
+  }
+
+  // 34 defense disaster
+  const dd = SC.filter(x => x.def && x.def[0] < 0).sort((a, b) => a.def[0] - b.def[0]);
+  if (dd.length) F.push(() => { const x = dd[0]; const g = all.find(r => r.si === x.si && r.w === x.w && r.o === x.o);
+    return { kick: "Defense-Desaster", title: `Die ${pName(x.def[1])}-Defense bescherte ${N(x.o)} ${f1(x.def[0])} Punkte`,
+      sub: `${when(x)}.${g ? (g.won ? " Gewonnen wurde trotzdem." : ` Das Duell gegen ${N(g.opp)} ging ${f1(g.pf)} zu ${f1(g.pa)} verloren${g.pa - g.pf < -x.def[0] ? " – mit einer Null-Punkte-Defense wäre es ein Sieg gewesen" : ""}.`) : ""}`,
+      num: f1(x.def[0]), unit: "Punkte", box: "Die schlechtesten Defense-Auftritte",
+      rows: dd.slice(0, 5).map(y => ({ who: `${pName(y.def[1])} DEF`, small: `${N(y.o)} · ${when(y)}`, v: f1(y.def[0]) })) }; });
+
+  // 35 drop regret
+  const RGT = H.flatMap(s => (s.regrets || []).map(r => ({ s, ...r }))).sort((a, b) => b.pts - a.pts);
+  if (RGT.length && RGT[0].pts >= 20) F.push(() => { const r = RGT[0];
+    return { kick: "Wegwerf-Reue", title: `${N(r.o)} hat ${pName(r.pid)} entlassen – ${N(r.to)} griff zu und kassierte ${f1(r.pts)} Punkte`,
+      sub: `Entlassen in ${whenS(r.s, r.w)}, von ${N(r.to)} geholt in Woche ${r.w2}. Gezählt: Starter-Punkte beim neuen Team bis Ende der Hauptrunde.`,
+      num: f1(r.pts), unit: "Punkte für die Konkurrenz", box: "Die teuersten Entlassungen",
+      rows: RGT.slice(0, 5).map(x => ({ who: `${pName(x.pid)}${pPos(x.pid) ? " · " + pPos(x.pid) : ""}`, small: `${N(x.o)} → ${N(x.to)} · ${x.s.season}`, v: f1(x.pts) })) }; });
+
+  // 36 club legend: most starts for the same manager
+  const lgd = {}; H.forEach(s => Object.entries(s.starts || {}).forEach(([o, m]) => Object.entries(m).forEach(([pid, n]) => {
+    const x = (lgd[o + "|" + pid] ||= { o, pid, n: 0, seasons: new Set() }); x.n += n; x.seasons.add(s.season); })));
+  const LGD = Object.values(lgd).sort((a, b) => b.n - a.n);
+  const ssz = n => `${n} ${n === 1 ? "Saison" : "Saisons"}`;
+  if (LGD.length && LGD[0].n >= 10) F.push(() => ({ kick: "Vereinslegende", title: `${pName(LGD[0].pid)} stand ${LGD[0].n}-mal in der Startaufstellung von ${N(LGD[0].o)}`,
+    sub: `Hauptrundenwochen seit ${H[0].season}, verteilt auf ${ssz(LGD[0].seasons.size)}. Kein Spieler war einem Manager treuer.`,
+    num: LGD[0].n, unit: "Starts für denselben Manager", box: "Die treuesten Spieler",
+    rows: LGD.slice(0, 6).map(x => ({ who: `${pName(x.pid)}${pPos(x.pid) ? " · " + pPos(x.pid) : ""}`, small: `${N(x.o)} · ${ssz(x.seasons.size)}`, v: x.n })) }));
+
+  // 37 champion of hearts: playoff appearances without a title
+  if (PO.length) {
+    const pa2 = {}; PO.forEach(b => [b.a, b.b].forEach(o => { const x = (pa2[o] ||= { o, seasons: new Set(), fin: 0 }); x.seasons.add(b.s.season); if (b.p === 1 && b.win && b.win !== o) x.fin++; }));
+    const MH = Object.values(pa2).filter(x => !ch.some(c => c.o === x.o)).sort((a, b) => b.seasons.size - a.seasons.size || b.fin - a.fin);
+    if (MH.length && MH[0].seasons.size >= 2) F.push(() => ({ kick: "Meister der Herzen", title: `${N(MH[0].o)}: ${MH[0].seasons.size}-mal in den Playoffs, noch ohne Titel`,
+      sub: `${MH[0].fin ? `Darunter ${MH[0].fin} ${MH[0].fin === 1 ? "verlorenes Finale" : "verlorene Finals"}. ` : ""}Playoff-Teilnahmen seit ${H[0].season}, Titel inklusive der Zeit vor Sleeper.`,
+      num: MH[0].seasons.size, unit: "Playoffs ohne Titel", box: "Playoffs ohne Titel", rows: MH.slice(0, 6).map(x => ({ who: N(x.o), small: x.fin ? `${x.fin}× Finale verloren` : "", v: `${x.seasons.size}×` })) }));
+  }
+
+  // 38 the wooden spoon: last place after the regular season
+  const rankS = s => { const t = {}; G.filter(g => g.s === s).forEach(g => [[g.a, g.pa, g.pb], [g.b, g.pb, g.pa]].forEach(([o, pf, pg]) => {
+      const x = (t[o] ||= { o, w: 0, l: 0, tt: 0, pf: 0 }); if (pf > pg) x.w++; else if (pf < pg) x.l++; else x.tt++; x.pf += pf; }));
+    return Object.values(t).sort((a, b) => (b.w + b.tt / 2) - (a.w + a.tt / 2) || b.pf - a.pf); };
+  const spoon = H.filter(s => s.status === "complete").map(s => { const r = rankS(s); return r.length ? { s, x: r[r.length - 1] } : null; }).filter(Boolean);
+  if (spoon.length) {
+    const sp2 = {}; spoon.forEach(z => sp2[z.x.o] = (sp2[z.x.o] || 0) + 1); const topS = Object.entries(sp2).sort((a, b) => b[1] - a[1])[0];
+    F.push(() => ({ kick: "Der Löffel · Letzter der Hauptrunde", title: topS[1] > 1 ? `${N(topS[0])} hat den Löffel schon ${topS[1]}-mal abgeholt` : spoon.length === 1 ? `${N(topS[0])} beendete die Hauptrunde ${spoon[0].s.season} als Letzter` : `${spoon.length} Saisons, ${spoon.length} verschiedene Tabellenletzte`,
+      sub: `Tabellenletzter nach der Hauptrunde (Siege, dann Punkte) · seit ${H[0].season}.`, num: topS[1], unit: topS[1] > 1 ? "Löffel" : "Löffel pro Manager", box: "Alle Tabellenletzten",
+      rows: [...spoon].reverse().slice(0, 8).map(z => ({ who: N(z.x.o), small: `${rec(z.x.w, z.x.l, z.x.tt)} · ${f1(z.x.pf)} Pkt.`, v: z.s.season })) }));
   }
 
   // 18 live: record chase this week
@@ -880,7 +1093,6 @@ function vRivalFact(){
   return renderFact(f, "Rivalry Week");
 }
 function vFact(){
-  if (S.bragMode) { const B = S.facts.filter(f => { try { const x = f(); return x && x.brag; } catch(e){ return false; } }); if (B.length) return renderFact(B[S.bragPick % B.length]()); }
   const L = S.facts.length; let f = null;
   for (let k = 0; k < L && !f; k++) { const i = (S.factPick + k) % L; try { f = S.facts[i](); } catch(e){ f = null; } if (f) S.factShown = i; }
   if (!f) return { title: "WFFL-Historie", dur: 4000, html: `<div class="empty">Historie wird ausgewertet …</div>` };
@@ -987,7 +1199,7 @@ function show(i){
   if (!S.views.length) return;
   S.idx = (i + S.views.length) % S.views.length;
   const fn = S.views[S.idx];
-  if (fn === vFact) { S.factPick = S.factShown + 1; S.factRound = (S.factRound || 0) + 1; S.bragMode = S.factRound % 6 === 0; if (S.bragMode) S.bragPick = (S.bragPick || 0) + 1; }
+  if (fn === vFact) S.factPick = S.factShown + 1;
   if (fn === vRivalFact) S.rivPick++;
   const v = fn(); S.curKey = fn.key || fn.name; S.curHtml = v.html;
   const main = $("main"); const olds = [...main.querySelectorAll(".view")];
