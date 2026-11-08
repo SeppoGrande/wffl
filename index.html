@@ -1,6 +1,5 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>WFFL Scoreboard</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&display=swap">
@@ -21,8 +20,9 @@
   --body:"Barlow","Helvetica Neue",Arial,sans-serif;
   color-scheme:dark;
 }
+[hidden]{display:none!important}
 html,body{height:100%}
-body{background:var(--night);color:var(--fg);font-family:var(--body);overflow:hidden;
+body{margin:0;background:var(--night);color:var(--fg);font-family:var(--body);overflow:hidden;
   padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
   -webkit-user-select:none;user-select:none;cursor:default}
 #stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:50% 50%;
@@ -108,6 +108,7 @@ tr.cut td{border-top:2px dashed var(--amber)}
 .form{display:inline-flex;gap:4px;vertical-align:middle}
 .form i{width:12px;height:12px;border-radius:2px;background:var(--loss)}
 .form i.W{background:var(--win)}
+.form i.T{background:var(--muted)}
 .box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:22px 26px;display:flex;flex-direction:column;gap:14px;min-height:0}
 .box h3{margin:0;font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .note{font-size:17px;color:var(--muted)}
@@ -179,6 +180,7 @@ footer{border-top:1px solid var(--line);overflow:hidden;display:flex;align-items
   .live-dot{animation:none}
 }
 </style>
+</head><body>
 
 <div id="stage">
   <header>
@@ -204,7 +206,7 @@ const HUES = ["#ffb43b","#5ec8ff","#3ccf86","#ff7a9c","#b892ff","#ffd65e","#4fe0
 const ABBR_FIX = { WSH: "WAS" };
 const SLOT = { QB:"QB", RB:"RB", WR:"WR", TE:"TE", FLEX:"FLX", K:"K", DEF:"DEF", SUPER_FLEX:"SF", REC_FLEX:"RFX", WRRB_FLEX:"W/R", IDP_FLEX:"IDP" };
 
-const S = { league:null, users:{}, rosters:[], week:null, matchups:[], games:{}, gamesList:[], lastOk:0, idx:0, paused:false, views:[], fullFetched:false, bp:new Map(), bpDone:new Set(), bpWeek:null, bpSeen:null, bpSig:"", hist:null, facts:[], factPick:0, factShown:-1, histSpan:"" };
+const S = { league:null, users:{}, rosters:[], week:null, matchups:[], games:{}, gamesList:[], lastOk:0, idx:0, paused:false, views:[], curKey:null, curHtml:"", pTried:0, pCacheApplied:false, rivPick:0, bp:new Map(), bpDone:new Set(), bpWeek:null, bpSeen:null, bpSig:"", hist:null, facts:[], factPick:0, factShown:-1, histSpan:"" };
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const f1 = n => (Math.round((n||0)*100)/100).toFixed(2);
@@ -234,15 +236,23 @@ async function loadScores(){
   await ensurePlayers();
   S.lastOk = Date.now();
 }
+// The built-in PLAYERS list goes stale (trades, releases). Once a day, refresh name/position/team of all
+// rostered players from Sleeper (their docs ask for /players/nfl at most once per day) and cache the slim result.
+const PKEY = "wffl-players-v1";
 async function ensurePlayers(){
-  if (S.fullFetched) return;
+  const c = lsGet(PKEY);
+  if (!S.pCacheApplied && c && c.map) { Object.assign(PLAYERS, c.map); S.pCacheApplied = true; }
   const ids = new Set(); S.matchups.forEach(m => (m.players||[]).forEach(p => ids.add(p)));
-  const missing = [...ids].filter(id => !PLAYERS[id]);
-  if (!missing.length) return;
-  S.fullFetched = true;
+  const fresh = c && Date.now() - c.t < 864e5;
+  const missing = [...ids].some(id => !PLAYERS[id]);
+  if (fresh && !missing) return;
+  if (Date.now() - S.pTried < 36e5) return;   // at most one attempt per hour, also after errors
+  S.pTried = Date.now();
   try {
     const all = await j(`${API}/players/nfl`);
-    for (const id of missing){ const v = all[id]; if (v) PLAYERS[id] = [v.position==="DEF" ? v.last_name : `${(v.first_name||"")[0]||""}. ${v.last_name||""}`, v.position||"", v.team||""]; }
+    const map = (fresh && c.map) || {};
+    for (const id of ids){ const v = all[id]; if (v) map[id] = PLAYERS[id] = [v.position==="DEF" ? v.last_name : `${(v.first_name||"")[0]||""}. ${v.last_name||""}`, v.position||"", v.team||""]; }
+    lsSet(PKEY, { t: Date.now(), map });
   } catch(e){}
 }
 async function loadGames(){
@@ -279,7 +289,8 @@ function gameOf(nflTeam){ return S.games[nflTeam]; }
 function pStatus(pid){
   const meta = PLAYERS[pid] || [`#${pid}`, "", ""];
   const g = gameOf(meta[2]);
-  if (!g) return { state: "post", txt: meta[2] ? `${meta[2]} · Bye` : "" , rz:false };
+  // without NFL data (ESPN unreachable) we cannot tell a bye from a missing schedule
+  if (!g) return { state: "post", txt: meta[2] ? (S.gamesList.length ? `${meta[2]} · Bye` : meta[2]) : "", rz:false };
   if (g.state === "pre") return { state:"pre", txt:`${meta[2]} · ${weekday.format(g.date).replace(",", "")}`, rz:false };
   if (g.state === "in") return { state:"in", txt:`${meta[2]} · ${g.detail}`, rz: g.rz && g.poss === meta[2] };
   return { state:"post", txt:`${meta[2]} · Final`, rz:false };
@@ -328,7 +339,7 @@ function vDuel(a, b, i){
     const v = `<div class="v ${pts>opts && pts>0 ? "better":""}">${f1(pts)}</div>`;
     return `<div class="cell ${side} ${cls} ${st.rz?"rz":""}">${side==="l" ? p+v : v+p}</div>`;
   };
-  const rows = slots.map((s,k) => cell(a,k,"l",b) + `<div class="slot">${SLOT[s]||s}</div>` + cell(b,k,"r",a)).join("");
+  const rows = slots.map((s,k) => cell(a,k,"l",b) + `<div class="slot">${esc(SLOT[s]||s)}</div>` + cell(b,k,"r",a)).join("");
   const side = (t,m,c,r,lead) => `<div class="side ${r?"r":""} ${lead?"lead":""}">${badge(t)}<div class="tname">${esc(t.name)}<small>${esc(t.owner)} · ${t.r ? `${t.r.settings.wins}-${t.r.settings.losses}${t.r.settings.ties?"-"+t.r.settings.ties:""}`:""} · ${openTxt(c)}</small></div><div class="big">${f1(m.points)}</div></div>`;
   const diff = Math.abs(a.points-b.points);
   return { title:`Matchup ${i+1} von ${pairs().length}`, dur:DUR.duel,
@@ -337,11 +348,11 @@ function vDuel(a, b, i){
 function vStandings(){
   const n = S.league.settings.playoff_teams || 0;
   const rows = [...S.rosters].map(r => ({ r, t:team(r.roster_id), w:r.settings.wins, l:r.settings.losses, ti:r.settings.ties||0,
-      pf:r.settings.fpts + (r.settings.fpts_decimal||0)/100, pa:(r.settings.fpts_against||0)+(r.settings.fpts_against_decimal||0)/100,
+      pf:(r.settings.fpts||0) + (r.settings.fpts_decimal||0)/100, pa:(r.settings.fpts_against||0)+(r.settings.fpts_against_decimal||0)/100,
       streak:(r.metadata&&r.metadata.streak)||"", rec:((r.metadata&&r.metadata.record)||"").slice(-5) }))
     .sort((x,y) => (y.w + y.ti/2) - (x.w + x.ti/2) || y.pf - x.pf);
   const live = {}; S.matchups.forEach(m => live[m.roster_id] = m.points||0);
-  const tr = rows.map((x,i) => `<tr class="${i===n && n?"cut":""}"><td>${i+1}</td><td class="team"><div class="tb">${badge(x.t)}<span>${esc(x.t.name)}</span></div></td><td>${x.w}-${x.l}${x.ti?"-"+x.ti:""}</td><td>${x.pf.toFixed(1)}</td><td>${x.pa.toFixed(1)}</td><td><span class="form">${[...x.rec].map(c=>`<i class="${c}"></i>`).join("")}</span></td><td class="streak ${x.streak.slice(-1)}">${esc(x.streak)}</td></tr>`).join("");
+  const tr = rows.map((x,i) => `<tr class="${i===n && n?"cut":""}"><td>${i+1}</td><td class="team"><div class="tb">${badge(x.t)}<span>${esc(x.t.name)}</span></div></td><td>${x.w}-${x.l}${x.ti?"-"+x.ti:""}</td><td>${x.pf.toFixed(1)}</td><td>${x.pa.toFixed(1)}</td><td><span class="form">${[...x.rec].map(c=>`<i class="${esc(c)}"></i>`).join("")}</span></td><td class="streak ${esc(x.streak.slice(-1))}">${esc(x.streak)}</td></tr>`).join("");
   const top = Object.entries(live).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([rid,p],i) => { const t=team(+rid); return `<div class="rank"><div class="n">${i+1}</div><div class="who tb">${badge(t)}<b>${esc(t.name)}</b></div><div class="v">${f1(p)}</div></div>`; }).join("");
   return { title:"Tabelle", dur:DUR.standings, html:`<div class="split"><div style="min-width:0"><table><thead><tr><th>#</th><th>Team</th><th>W-L</th><th>PF</th><th>PA</th><th>Form</th><th>Serie</th></tr></thead><tbody>${tr}</tbody></table>
     <p class="note">Gestrichelte Linie: Playoff-Grenze (Top ${n}). Sortiert nach Siegen, dann Punkten. Stand vor dieser Woche.</p></div>
@@ -374,7 +385,7 @@ function vHighlights(){
 function buildViews(){
   if (!S.league || !S.matchups.length) return [];
   const v = [vOverview], ps = pairs();
-  ps.forEach((p,i) => v.push(() => vDuel(p[0], p[1], i)));
+  ps.forEach((p,i) => { const f = () => vDuel(p[0], p[1], i); f.key = "duel" + i; v.push(f); });
   v.splice(4, 0, vStandings); v.push(vHighlights);
   if (S.facts.length) v.push(vFact);   // one fact per round
   if (S.facts.length && S.week === RIV_WEEK) v.splice(1, 0, vRivalFact);   // Rivalry Week: extra rivalry slot
@@ -963,7 +974,7 @@ function renderTape(){
     const [a,h] = g.teams[0].home ? [g.teams[1], g.teams[0]] : [g.teams[0], g.teams[1]];
     const d = g.state==="pre" ? weekday.format(g.date).replace(",","") : g.state==="in" ? g.detail : "Final";
     const sc = g.state==="pre" ? "" : `<span class="${a.score>h.score?"w":""}">${a.score}</span> : <span class="${h.score>a.score?"w":""}">${h.score}</span>`;
-    return `<span class="g ${g.state}">${g.state==="in"?'<span class="live-dot"></span>':""}<b>${a.abbr} @ ${h.abbr}</b>${sc}<span class="d">${esc(d)}</span>${g.rz?'<span class="rztag">RZ '+esc(g.poss||"")+'</span>':""}</span>`;
+    return `<span class="g ${esc(g.state)}">${g.state==="in"?'<span class="live-dot"></span>':""}<b>${esc(a.abbr)} @ ${esc(h.abbr)}</b>${sc}<span class="d">${esc(d)}</span>${g.rz?'<span class="rztag">RZ '+esc(g.poss||"")+'</span>':""}</span>`;
   }).join("");
   $("tape").innerHTML = one + one;
   $("tape").style.setProperty("--dur", `${Math.max(40, S.gamesList.length*7)}s`);
@@ -978,7 +989,7 @@ function show(i){
   const fn = S.views[S.idx];
   if (fn === vFact) { S.factPick = S.factShown + 1; S.factRound = (S.factRound || 0) + 1; S.bragMode = S.factRound % 6 === 0; if (S.bragMode) S.bragPick = (S.bragPick || 0) + 1; }
   if (fn === vRivalFact) S.rivPick++;
-  const v = fn();
+  const v = fn(); S.curKey = fn.key || fn.name; S.curHtml = v.html;
   const main = $("main"); const olds = [...main.querySelectorAll(".view")];
   olds.forEach(o => { if (!o.classList.contains("on")) o.remove(); });
   const el = document.createElement("div"); el.className = "view"; el.innerHTML = v.html; main.appendChild(el);
@@ -990,8 +1001,13 @@ function show(i){
 function rerenderCurrent(){
   const main = $("main"), cur = main.querySelector(".view.on"); if (!cur) return show(0);
   S.views = buildViews(); if (!S.views.length) return;
-  if (S.idx >= S.views.length) return show(0);
-  const v = S.views[S.idx](); cur.innerHTML = v.html; $("viewTitle").textContent = v.title;
+  // the view list can change (history loaded, Rivalry slot inserted): keep updating the view that is on screen
+  const i = S.views.findIndex(f => (f.key || f.name) === S.curKey);
+  if (i < 0) return;   // current view no longer exists: leave it, the rotation timer moves on
+  S.idx = i;
+  const v = S.views[i](); $("viewTitle").textContent = v.title;
+  if (v.html === S.curHtml) return;   // nothing changed: no redraw, no flicker
+  S.curHtml = v.html; cur.innerHTML = v.html;
 }
 function tickProgress(){
   const p = S.paused ? 1 : Math.min(1, (performance.now()-started)/(curDur||1));
