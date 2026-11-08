@@ -26,7 +26,7 @@ body{background:var(--night);color:var(--fg);font-family:var(--body);overflow:hi
   padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
   -webkit-user-select:none;user-select:none;cursor:default}
 #stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:50% 50%;
-  display:grid;grid-template-rows:84px 1fr 64px;font-variant-numeric:tabular-nums;
+  display:grid;grid-template-rows:84px 48px 1fr 64px;font-variant-numeric:tabular-nums;
   background:radial-gradient(120% 80% at 50% 0%, #13213d 0%, var(--night) 60%)}
 
 /* header */
@@ -41,8 +41,8 @@ header{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:2
 #progress{position:absolute;left:0;bottom:-1px;height:3px;background:var(--amber);width:0}
 #pauseTag{font-family:var(--display);font-size:20px;letter-spacing:.1em;color:var(--night);background:var(--amber);padding:2px 10px;border-radius:3px}
 
-main{position:relative;overflow:hidden;padding:30px 40px}
-.view{position:absolute;inset:30px 40px;opacity:0;transition:opacity .5s ease}
+main{position:relative;overflow:hidden;padding:22px 40px}
+.view{position:absolute;inset:22px 40px;opacity:0;transition:opacity .5s ease}
 .view.on{opacity:1}
 
 /* overview */
@@ -73,10 +73,13 @@ td.team .badge{width:34px;height:34px;font-size:15px;flex:none}
 .big{font-family:var(--display);font-weight:800;font-size:96px;line-height:1;margin-left:auto}
 .side.r .big{margin-left:0;margin-right:auto}
 .side.lead .big{color:var(--amber)}
-.vs{text-align:center;font-family:var(--display);font-size:22px;color:var(--muted);letter-spacing:.12em}
-.vs b{display:block;font-size:30px;color:var(--fg)}
+.vs{text-align:center;font-family:var(--display);font-size:16px;color:var(--muted);letter-spacing:.12em;display:grid;gap:6px}
+.vs b{display:block;font-size:28px;line-height:1.05;color:var(--fg);letter-spacing:.04em}
+.vs .h2h{border-top:1px solid var(--line);padding-top:6px}
+.vs .h2h b{color:var(--amber)}
+.vs .h2h small{display:block;font-size:14px;letter-spacing:.04em;margin-top:2px}
 .lineup{display:grid;grid-template-columns:1fr 92px 1fr;row-gap:6px;align-content:start}
-.cell{display:grid;align-items:center;background:var(--panel);height:52px;padding:0 18px;gap:14px;min-width:0}
+.cell{display:grid;align-items:center;background:var(--panel);height:48px;padding:0 18px;gap:14px;min-width:0}
 .cell.l{grid-template-columns:1fr auto;border-radius:4px 0 0 4px}
 .cell.r{grid-template-columns:auto 1fr;border-radius:0 4px 4px 0}
 .cell .p{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -88,7 +91,7 @@ td.team .badge{width:34px;height:34px;font-size:15px;flex:none}
 .cell.live{background:var(--panel-2);box-shadow:inset 0 0 0 1px #3a2a33}
 .cell.rz{box-shadow:inset 0 0 0 2px var(--rz)}
 .cell.done .v{color:var(--fg)} .cell.pre .v{color:var(--muted)}
-.slot{display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.06em;color:var(--muted);background:var(--night);height:52px}
+.slot{display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.06em;color:var(--muted);background:var(--night);height:48px}
 .rztag{font-family:var(--display);font-weight:700;font-size:15px;color:#fff;background:var(--rz);padding:1px 6px;border-radius:3px;margin-left:8px;letter-spacing:.06em}
 .better{color:var(--amber)!important}
 
@@ -97,7 +100,7 @@ td.team .badge{width:34px;height:34px;font-size:15px;flex:none}
 table{width:100%;border-collapse:collapse}
 th{font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:right;padding:0 12px 10px}
 th:nth-child(2),td:nth-child(2){text-align:left}
-td{font-size:24px;padding:0 12px;height:52px;text-align:right;border-top:1px solid var(--line)}
+td{font-size:24px;padding:0 12px;height:46px;text-align:right;border-top:1px solid var(--line)}
 td:first-child,th:first-child{text-align:center;width:46px}
 td.team{font-family:var(--display);font-weight:600;font-size:28px;max-width:420px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 tr.cut td{border-top:2px dashed var(--amber)}
@@ -116,7 +119,7 @@ tr.cut td{border-top:2px dashed var(--amber)}
 .stat h3{margin:0 0 6px;font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .stat .num{font-family:var(--display);font-weight:800;font-size:64px;line-height:1;color:var(--amber)}
 .stat .who{font-size:22px;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rank{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:16px;border-top:1px solid var(--line);height:56px;min-width:0}
+.rank{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:16px;border-top:1px solid var(--line);height:52px;min-width:0}
 .rank .n{font-family:var(--display);font-size:24px;color:var(--muted);text-align:center}
 .rank .who{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:24px}
 .rank .who b{font-weight:600}
@@ -124,6 +127,24 @@ tr.cut td{border-top:2px dashed var(--amber)}
 .rank .v{font-family:var(--display);font-weight:700;font-size:34px}
 
 /* ticker */
+/* big plays banner */
+#bp{display:flex;align-items:stretch;border-bottom:1px solid var(--line);background:#0c1426;overflow:hidden}
+.bplabel{flex:none;font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:.12em;background:var(--rz);color:#fff;display:grid;place-items:center;padding:0 20px}
+.bplabel.new{animation:bpflash .5s ease-in-out 10 alternate}
+@keyframes bpflash{to{background:var(--amber);color:var(--night)}}
+.bptape{flex:1;overflow:hidden;position:relative}
+.bptape-in{position:absolute;top:0;left:0;height:100%;display:flex;align-items:center;white-space:nowrap;animation:tape var(--dur,80s) linear infinite}
+.bptape-in.idle{animation:none}
+.bpi{display:inline-flex;align-items:center;gap:12px;padding:0 28px;border-right:1px solid var(--line);font-size:21px}
+.bpi .k{font-family:var(--display);font-weight:800;font-size:21px;letter-spacing:.06em;color:var(--amber);text-transform:uppercase}
+.bpi .k.td{color:#fff;background:var(--rz);padding:1px 8px;border-radius:3px}
+.bpi b{font-weight:600}
+.bpi .m{color:var(--muted);font-size:18px}
+.bpi .arrow{color:var(--muted)}
+.ffw{display:inline-flex;align-items:center;gap:8px}
+.ffw + .ffw{margin-left:10px}
+.bpi .badge{width:28px;height:28px;font-size:12px}
+.bpi .ff{font-family:var(--display);font-weight:700;font-size:22px;color:var(--amber)}
 footer{border-top:1px solid var(--line);overflow:hidden;display:flex;align-items:center;background:#0c1426}
 .tlabel{flex:none;font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:.1em;background:var(--amber);color:var(--night);height:100%;display:grid;place-items:center;padding:0 22px}
 .tape{flex:1;overflow:hidden;position:relative;height:100%}
@@ -152,7 +173,8 @@ footer{border-top:1px solid var(--line);overflow:hidden;display:flex;align-items
 .fact .rank .v{font-size:30px}
 
 @media (prefers-reduced-motion: reduce){
-  .tape-in{animation:none;position:static}
+  .tape-in,.bptape-in{animation:none;position:static}
+  .bplabel.new{animation:none}
   .view{transition:none}
   .live-dot{animation:none}
 }
@@ -165,6 +187,7 @@ footer{border-top:1px solid var(--line);overflow:hidden;display:flex;align-items
     <div class="meta"><span id="pauseTag" hidden>PAUSE</span><span id="status">verbinde …</span><span id="clock">--:--</span></div>
     <div id="progress"></div>
   </header>
+  <div id="bp"><div class="bplabel" id="bpLabel">BIG PLAYS</div><div class="bptape"><div class="bptape-in idle" id="bpTape"><span class="bpi"><span class="m">Big Plays werden geladen …</span></span></div></div></div>
   <main id="main"><div class="view on"><div class="empty">Lade Daten von Sleeper …</div></div></main>
   <footer><div class="tlabel">NFL</div><div class="tape"><div class="tape-in" id="tape"></div></div></footer>
   <div id="hint">← → wechseln · Leertaste Pause · Tippen links/rechts</div>
@@ -181,7 +204,7 @@ const HUES = ["#ffb43b","#5ec8ff","#3ccf86","#ff7a9c","#b892ff","#ffd65e","#4fe0
 const ABBR_FIX = { WSH: "WAS" };
 const SLOT = { QB:"QB", RB:"RB", WR:"WR", TE:"TE", FLEX:"FLX", K:"K", DEF:"DEF", SUPER_FLEX:"SF", REC_FLEX:"RFX", WRRB_FLEX:"W/R", IDP_FLEX:"IDP" };
 
-const S = { league:null, users:{}, rosters:[], week:null, matchups:[], games:{}, gamesList:[], lastOk:0, idx:0, paused:false, views:[], fullFetched:false, hist:null, facts:[], factPick:0, factShown:-1, histSpan:"" };
+const S = { league:null, users:{}, rosters:[], week:null, matchups:[], games:{}, gamesList:[], lastOk:0, idx:0, paused:false, views:[], fullFetched:false, bp:new Map(), bpDone:new Set(), bpWeek:null, bpSeen:null, bpSig:"", hist:null, facts:[], factPick:0, factShown:-1, histSpan:"" };
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const f1 = n => (Math.round((n||0)*100)/100).toFixed(2);
@@ -231,7 +254,7 @@ async function loadGames(){
       const teams = c.competitors.map(t => ({ abbr: ABBR_FIX[t.team.abbreviation] || t.team.abbreviation, id:t.team.id, score:+t.score||0, home:t.homeAway==="home" }));
       const sit = c.situation || {};
       const pos = teams.find(t => t.id === sit.possession);
-      const g = { state: st.state, detail: st.shortDetail, date: new Date(e.date), teams, rz: !!sit.isRedZone, poss: pos ? pos.abbr : null };
+      const g = { id: e.id, state: st.state, detail: st.shortDetail, date: new Date(e.date), teams, rz: !!sit.isRedZone, poss: pos ? pos.abbr : null };
       list.push(g); teams.forEach(t => map[t.abbr] = g);
     }
     S.games = map; S.gamesList = list.sort((a,b) => a.date - b.date);
@@ -283,6 +306,16 @@ function vOverview(){
   }).join("");
   return { title:`Alle Matchups · Woche ${S.week}`, html:`<div class="grid6">${cards}</div>`, dur:DUR.overview };
 }
+function h2hHtml(ra, rb){
+  if (!S.h2h) return "";
+  const oa = (rosterById(ra) || {}).owner_id, ob = (rosterById(rb) || {}).owner_id; if (!oa || !ob) return "";
+  const k = [oa, ob].sort().join("|"), r = S.h2h[k], p = (S.h2hPO || {})[k];
+  const side = (x, o) => x ? (o === x.a ? [x.wa, x.wb] : [x.wb, x.wa]) : [0, 0];
+  const [w, l] = side(r, oa), t = r ? r.t : 0, [pw, pl] = side(p, oa);
+  const rec = (w, l, t) => `${w}\u2011${l}${t ? "\u2011" + t : ""}`;
+  if (!r && !p) return `<div class="h2h">ALL-TIME<b>NEU</b><small>erstes Duell</small></div>`;
+  return `<div class="h2h">ALL-TIME<b>${rec(w, l, t)}</b>${p ? `<small>Playoffs ${rec(pw, pl)}</small>` : ""}</div>`;
+}
 function vDuel(a, b, i){
   const ta = team(a.roster_id), tb = team(b.roster_id), slots = S.league.roster_positions.filter(p => p!=="BN" && p!=="IR");
   const ca = counts(a), cb = counts(b);
@@ -299,7 +332,7 @@ function vDuel(a, b, i){
   const side = (t,m,c,r,lead) => `<div class="side ${r?"r":""} ${lead?"lead":""}">${badge(t)}<div class="tname">${esc(t.name)}<small>${esc(t.owner)} · ${t.r ? `${t.r.settings.wins}-${t.r.settings.losses}${t.r.settings.ties?"-"+t.r.settings.ties:""}`:""} · ${openTxt(c)}</small></div><div class="big">${f1(m.points)}</div></div>`;
   const diff = Math.abs(a.points-b.points);
   return { title:`Matchup ${i+1} von ${pairs().length}`, dur:DUR.duel,
-    html:`<div class="duel"><div class="duel-head">${side(ta,a,ca,false,a.points>b.points)}<div class="vs">DIFF<b>${f1(diff)}</b></div>${side(tb,b,cb,true,b.points>a.points)}</div><div class="lineup">${rows}</div></div>` };
+    html:`<div class="duel"><div class="duel-head">${side(ta,a,ca,false,a.points>b.points)}<div class="vs"><div>DIFF<b>${f1(diff)}</b></div>${h2hHtml(a.roster_id, b.roster_id)}</div>${side(tb,b,cb,true,b.points>a.points)}</div><div class="lineup">${rows}</div></div>` };
 }
 function vStandings(){
   const n = S.league.settings.playoff_teams || 0;
@@ -822,6 +855,9 @@ function computeFacts(){
 
   // shuffle so each round shows something different
   for (let i = F.length - 1; i > 0; i--) { const k = Math.floor(Math.random() * (i + 1)); [F[i], F[k]] = [F[k], F[i]]; }
+  // all-time head-to-head for the duel view (regular season + playoffs)
+  const po = {}; PO.forEach(b => { if (!b.win) return; const [x, y] = [b.a, b.b].sort(); const r = (po[x + "|" + y] ||= { a: x, wa: 0, wb: 0 }); if (b.win === x) r.wa++; else r.wb++; });
+  S.h2h = pr; S.h2hPO = po;
   S.facts = F; S.factPick = 0;
 }
 
@@ -847,7 +883,80 @@ function renderFact(f, head){
       ${rows ? `<div class="box"><h3>${esc(f.box || "")}</h3>${rows}</div>` : `<div class="ftxt">${hero}</div>`}</div>` };
 }
 
+/* ---------- big plays (ESPN game summaries) ---------- */
+const ESPN_SUM = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary";
+const normName = s => String(s || "").replace(/\b(Jr|Sr|II|III|IV|V)\b\.?/g, "").toLowerCase().replace(/[^a-z]/g, "");
+function rosterIndex(){
+  const idx = {};
+  S.matchups.forEach(m => { const st = new Set(m.starters || []);
+    (m.players || []).forEach(pid => { const meta = PLAYERS[pid]; if (!meta || !meta[2]) return;
+      (idx[meta[2]] ||= []).push({ pid, rid: m.roster_id, starter: st.has(pid), pos: meta[1], name: meta[1] === "DEF" ? `${meta[0]} DEF` : meta[0], key: meta[1] === "DEF" ? null : normName(meta[0]) }); }); });
+  return idx;
+}
+function parseSummary(g, sum){
+  const idx = rosterIndex(), teams = g.teams.map(t => t.abbr);
+  const dr = (sum && sum.drives) || {};
+  const drives = [...(dr.previous || []), ...(dr.current ? [dr.current] : [])];
+  drives.forEach(d => {
+    const off = ABBR_FIX[(d.team && d.team.abbreviation) || ""] || (d.team && d.team.abbreviation) || "";
+    const def = teams.find(t => t !== off) || "";
+    (d.plays || []).forEach(p => {
+      const type = (p.type && p.type.text) || "", txt = p.text || "", yds = +p.statYardage || 0;
+      if (/penalty|timeout|end of|two-minute/i.test(type) && !p.scoringPlay) return;
+      const both = type + " " + txt;
+      const defensive = /interception|fumble/i.test(type);
+      const td = !!p.scoringPlay && /touchdown/i.test(both);
+      const fg = /field goal good/i.test(type); const fgYds = fg ? +((txt.match(/(\d+)\s*(?:-?\s*yd|yard)/i) || [])[1] || 0) : 0;
+      let kind = null, cls = "", dist = yds;
+      if (td) { cls = "td"; kind = /interception/i.test(both) ? "Pick-Six" : /fumble/i.test(both) ? "Fumble-TD" : /kickoff|punt/i.test(both) ? "Return-TD" : /pass/i.test(type) ? "TD-Pass" : /rush|run/i.test(type) ? "TD-Lauf" : "Touchdown"; }
+      else if (fg && fgYds >= 50) { kind = `${fgYds}-Yd-Field-Goal`; dist = 0; }
+      else if (defensive && !/recovery \(own\)/i.test(type)) { kind = /interception/i.test(type) ? "Interception" : "Fumble"; dist = 0; }
+      else if (yds >= 40 && /pass|rush|run/i.test(type)) kind = /pass/i.test(type) ? "Langer Pass" : "Langer Lauf";
+      if (!kind) return;
+      const n = normName(txt); const hits = [];
+      if (defensive) (idx[def] || []).filter(x => x.pos === "DEF").forEach(x => hits.push(x));
+      else (idx[off] || []).filter(x => x.key && x.key.length > 3 && n.includes(x.key)).forEach(x => hits.push(x));
+      if (fg && !hits.length) (idx[off] || []).filter(x => x.pos === "K").forEach(x => hits.push(x));
+      const m = txt.match(/[A-Z][a-z]?\.\s?[A-Z][A-Za-z'\-]+/);
+      const primary = defensive ? `${def} Defense` : m ? m[0].replace(/\.(?=\S)/, ". ") : off;
+      const per = (p.period && p.period.number) || 0, clk = (p.clock && p.clock.displayValue) || "";
+      const wall = Date.parse(p.wallclock || "") || (g.date.getTime() + per * 3600e3 / 4 + (900 - (parseInt(clk) * 60 + (+clk.split(":")[1] || 0))) * 1000);
+      S.bp.set(String(p.id || `${g.id}-${per}-${clk}-${txt.slice(0, 30)}`), { g, wall, kind, cls, dist, off: defensive ? def : off, per, clk, hits, primary });
+    });
+  });
+}
+async function loadBigPlays(){
+  if (S.bpWeek !== S.week) { S.bp = new Map(); S.bpDone = new Set(); S.bpWeek = S.week; S.bpSeen = null; S.bpSig = ""; }
+  const todo = S.gamesList.filter(g => g.id && (g.state === "in" || (g.state === "post" && !S.bpDone.has(g.id))));
+  for (let i = 0; i < todo.length; i += 3) {
+    await Promise.all(todo.slice(i, i + 3).map(async g => { try { const sum = await j(`${ESPN_SUM}?event=${g.id}`); parseSummary(g, sum); if (g.state === "post") S.bpDone.add(g.id); } catch(e){} }));
+  }
+  renderBP();
+}
+function renderBP(){
+  const all = [...S.bp.values()], rel = all.filter(x => x.hits.length);
+  const list = (rel.length ? rel : all).sort((a, b) => b.wall - a.wall).slice(0, 14);
+  const sig = list.map(x => x.kind + x.wall + x.primary).join("|");
+  if (sig === S.bpSig) return; S.bpSig = sig;
+  const tape = $("bpTape");
+  if (!list.length) { tape.classList.add("idle"); tape.innerHTML = `<span class="bpi"><span class="m">Noch keine Big Plays in Woche ${S.week} – sobald es kracht, steht es hier.</span></span>`; return; }
+  tape.classList.remove("idle");
+  const one = list.map(x => {
+    const names = x.hits.length ? [...new Set(x.hits.map(h => h.name))].join(" & ") : x.primary;
+    const per = x.per > 4 ? "OT" : `Q${x.per}`;
+    const ff = [...new Map(x.hits.map(h => [h.rid, h])).values()].map(h => { const t = team(h.rid);
+      return `<span class="ffw">${badge(t)}<span class="ff">${esc(t.name)}</span>${h.starter ? "" : `<span class="m">(Bank)</span>`}</span>`; }).join("");
+    return `<span class="bpi"><span class="k ${x.cls}">${esc(x.kind)}</span><b>${esc(names)}</b><span class="m">${x.dist ? x.dist + " Yds · " : ""}${esc(x.off)} · ${per} ${esc(x.clk)}</span>${ff ? `<span class="arrow">→</span>${ff}` : ""}</span>`;
+  }).join("");
+  tape.innerHTML = one + one;
+  tape.style.setProperty("--dur", `${Math.max(45, list.length * 10)}s`);
+  const ids = new Set(all.filter(x => x.hits.length).map(x => x.kind + x.wall + x.primary));
+  if (S.bpSeen && [...ids].some(k => !S.bpSeen.has(k))) { const l = $("bpLabel"); l.classList.remove("new"); void l.offsetWidth; l.classList.add("new"); }
+  S.bpSeen = ids;
+}
+
 /* ---------- ticker ---------- */
+
 function renderTape(){
   if (!S.gamesList.length){ $("tape").innerHTML = `<span class="g"><span class="d">Keine NFL-Spieldaten</span></span>`; return; }
   const one = S.gamesList.map(g => {
@@ -929,6 +1038,7 @@ async function boot(){
     $("lgName").textContent = S.league.name || "Liga"; $("weekLbl").textContent = weekLabel();
     await Promise.all([loadScores(), loadGames()]);
     renderTape(); show(0); flashHint();
+    loadBigPlays();
     loadHistory();
   } catch(e){
     $("viewTitle").textContent = "Keine Verbindung";
@@ -937,6 +1047,7 @@ async function boot(){
   }
   setInterval(async () => { try { await loadScores(); rerenderCurrent(); } catch(e){} }, 60000);
   setInterval(async () => { await loadGames(); renderTape(); rerenderCurrent(); }, 30000);
+  setInterval(() => { loadBigPlays(); }, 60000);
   setInterval(async () => { try { const w = S.week; await loadStatic(); if (S.week !== w) { $("weekLbl").textContent = weekLabel(); await loadScores(); loadHistory(); } } catch(e){} }, 15*60000);
 }
 boot();
