@@ -372,11 +372,22 @@ function vDuel(a, b, i){
   return { title:`Matchup ${i+1} von ${pairs().length}`, dur:DUR.duel,
     html:`<div class="duel"><div class="duel-head">${side(ta,a,ca,false,a.points>b.points)}<div class="vs"><div>DIFF<b>${f1(diff)}</b></div>${h2hHtml(a.roster_id, b.roster_id)}</div>${side(tb,b,cb,true,b.points>a.points)}</div><div class="lineup">${rows}</div></div>` };
 }
+// form and streak from the actual results of this season (history data); Sleeper's roster metadata
+// (record/streak) is not filled for every roster and is only the fallback while the history loads
+function seasonForm(ownerId){
+  const s = S.hist && S.hist[S.hist.length - 1]; if (!s || s.id !== LEAGUE || !ownerId) return null;
+  const res = s.games.filter(g => g[1] === ownerId || g[3] === ownerId).sort((a, b) => a[0] - b[0])
+    .map(([w, a, pa, b, pb]) => { const [me, op] = a === ownerId ? [pa, pb] : [pb, pa]; return me > op ? "W" : me < op ? "L" : "T"; });
+  if (!res.length) return null;
+  const last = res[res.length - 1]; let k = 0; for (let i = res.length - 1; i >= 0 && res[i] === last; i--) k++;
+  return { rec: res.join("").slice(-5), streak: `${k}${last}` };
+}
 function vStandings(){
   const n = S.league.settings.playoff_teams || 0;
-  const rows = [...S.rosters].map(r => ({ r, t:team(r.roster_id), w:r.settings.wins, l:r.settings.losses, ti:r.settings.ties||0,
+  const rows = [...S.rosters].map(r => { const fm = seasonForm(r.owner_id);
+    return { r, t:team(r.roster_id), w:r.settings.wins, l:r.settings.losses, ti:r.settings.ties||0,
       pf:(r.settings.fpts||0) + (r.settings.fpts_decimal||0)/100, pa:(r.settings.fpts_against||0)+(r.settings.fpts_against_decimal||0)/100,
-      streak:(r.metadata&&r.metadata.streak)||"", rec:((r.metadata&&r.metadata.record)||"").slice(-5) }))
+      streak: fm ? fm.streak : (r.metadata&&r.metadata.streak)||"", rec: fm ? fm.rec : ((r.metadata&&r.metadata.record)||"").slice(-5) }; })
     .sort((x,y) => (y.w + y.ti/2) - (x.w + x.ti/2) || y.pf - x.pf);
   const live = {}; S.matchups.forEach(m => live[m.roster_id] = m.points||0);
   const tr = rows.map((x,i) => `<tr class="${i===n && n?"cut":""}"><td>${i+1}</td><td class="team"><div class="tb">${badge(x.t)}<span>${esc(x.t.name)}</span></div></td><td>${x.w}-${x.l}${x.ti?"-"+x.ti:""}</td><td>${x.pf.toFixed(1)}</td><td>${x.pa.toFixed(1)}</td><td><span class="form">${[...x.rec].map(c=>`<i class="${esc(c)}"></i>`).join("")}</span></td><td class="streak ${esc(x.streak.slice(-1))}">${esc(x.streak)}</td></tr>`).join("");
